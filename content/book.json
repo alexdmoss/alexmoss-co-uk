@@ -1,0 +1,18 @@
+{
+    "root": "./",
+    "title": "http://moss.work",
+    "pdf.fontFamily" : "",
+    "pdf.paperSize": "a4",
+
+    "plugins" : [ "image-class", "bring-yer-favicon", "ga" ],
+
+    "pluginsConfig" : {
+      "favicons": {
+        "favicon.ico": "/favicon.ico"
+      },
+      "ga": {
+        "token": "UA-102974288-1"
+      }
+    }
+
+}

@@ -1,0 +1,9 @@
+FROM node:6-slim
+
+ADD gitbook.sh /tmp/
+RUN cd /tmp/ && sh gitbook.sh
+
+WORKDIR /docs
+
+# run GitBook when the container starts
+ENTRYPOINT ["gitbook"]
