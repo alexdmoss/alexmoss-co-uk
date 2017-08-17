@@ -1,14 +1,12 @@
 provider "google" {
   credentials  = ""
   project      = "moss-work"
-  region       = "us-east1"
+  region       = "europe-west2"
 }
 
 resource "google_container_cluster" "cluster" {
   name = "moss-work-k8s"
-  # US regions (not including W Virginia) give one free f1-micro
-  zone = "us-east1-b"
-  #additional_zones = ["us-east1-c", "us-east1-d"]
+  zone = "europe-west2-b"
   monitoring_service = "monitoring.googleapis.com"
 
   master_auth {
@@ -16,11 +14,11 @@ resource "google_container_cluster" "cluster" {
     password = "${var.master_auth_pwd}"
   }
 
-  initial_node_count = 3
-  node_version = "1.6.4"
+  initial_node_count = 2
+  node_version = "1.7.3"
   node_config {
-	  machine_type = "f1-micro"
-	  disk_size_gb = "20"
+	  machine_type = "n1-standard-1"
+	  disk_size_gb = "10"
 
     oauth_scopes = [
     	"https://www.googleapis.com/auth/compute",
@@ -30,11 +28,5 @@ resource "google_container_cluster" "cluster" {
     ]
 
   }
-
-#  scheduling {
-#    automatic_restart   = true
-#    on_host_maintenance = "MIGRATE"
-#    preemptible = true
-#  }
 
 }
