@@ -6,8 +6,8 @@
 
 ----
 
-I favour learning through hands-on experience and experimentation, as well as building insight through attending conferences or meetups.
+I have always favoured learning through hands-on experience & experimentation, as well as building insight through conferences & meetups. Most recently, I was lucky enough to attend Google’s Next 2018 Conference in San Francisco to represent JLP technically, at the request of my Director.
 
-I have taken part in several personal development courses and conferences through my time in John Lewis, including those on Agile, Managing Third Parties, and Leadership Skills.
+That said, I have also taken part in several personal development courses and conferences through my time in John Lewis, including those on Agile, Managing Third Parties, and Leadership Skills.
 
 ----

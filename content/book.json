@@ -1,14 +1,19 @@
 {
     "root": "./",
-    "title": "http://moss.work",
-    "pdf.fontFamily" : "",
-    "pdf.paperSize": "a4",
+    "title": "moss.work",
 
-    "plugins" : [ "image-class", "bring-yer-favicon", "ga" ],
+    "plugins" : [ 
+      "hide-published-with",
+      "image-class",
+      "-sharing",
+      "image-class", 
+      "bring-yer-favicon", 
+      "ga" 
+    ],
 
     "pluginsConfig" : {
       "favicons": {
-        "favicon.ico": "/favicon.ico"
+        "favicon.ico": "images/favicon.ico"
       },
       "ga": {
         "token": "UA-102974288-1"

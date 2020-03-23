@@ -1,21 +1,5 @@
-*.retry
-_book/
-node_modules/
-
-### Vim ###
-# swap
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
-# session
-Session.vim
-# temporary
-.netrwhist
-*~
-# auto-generated tag files
-tags
-
-#Mac indexer
-.DS_Store
-
-# tfvars
-terraform.tfvars
+.secret/*
+*.DS_Store
+*.swp
+**/node_modules/**
+**/OLD/**

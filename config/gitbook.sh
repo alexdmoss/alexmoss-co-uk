@@ -1,4 +1,4 @@
-#!/bin/sh -eux
+#!/bin/bash
 #
 #------------------------------------------------------------------------------
 # [Alex Moss, 2017-07-21]
@@ -7,14 +7,20 @@
 # Heavily based on https://github.com/humangeo/gitbook-docker/
 #------------------------------------------------------------------------------
 
-#GITBOOK_CLI_VERSION="2.3.0"
+echo "Hello from the GitBook entrypoint script!"
+
+set -x
+
 GITBOOK_CLI_VERSION="2.3.2"
+#GITBOOK_CLI_VERSION="4.0.0-alpha.6"
+
 apt-get update
 apt-get install -y --no-install-recommends git calibre
 npm install -g gitbook-cli@$GITBOOK_CLI_VERSION
 #npm install gitbook-plugin-bring-yer-favicon
 #npm install gitbook-plugin-ga
 #npm install gitbook-plugin-image-class
+#gitbook fetch 4.0.0-alpha.6
 gitbook fetch latest
 
 # add gitbook wrapper script

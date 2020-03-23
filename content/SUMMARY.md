@@ -1,9 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* [The Tech Stack](TechStack.md)
-
-## Profile
 
 * [Personal Profile](profile/PersonalProfile.md)
 * [Technical Skills](profile/TechnicalSkills.md)

@@ -1,44 +1,44 @@
-# moss.work
+# https://www.moss.work/
 
-http://www.moss.work/
+moss.work is - on the surface at least - an online CV describing the career of Alex Moss.
 
-Introduction:
+In truth, it serves as a way to experiment with cloud automation technologies by using a very simple application.
 
-moss.work is - on the surface at least - a website describing the career of
-Alex Moss.
+The technology stack is basically GitbookIO (although this is not out of active development, so probably ought to replace it!).
 
-In truth, it serves as a way to experiment with cloud automation technologies
-by using a very simple application.
+It was my first foray into Docker/Kubernetes, so probably not of the highest standard :) I'll try to remember to retro some of the other things I learn as I go back into the build.
 
-The technology stack consists of:
-- A simple Gitbook for maintaining the site's content
-- A dockerised image for localised build and testing
-- The docker image is then published to a Kubernetes cluster hosted on
-Google's Cloud Platform
+---
 
--------------------------------------------------------------------------------
+## To Do
 
-TODO:
+- [ ] Add an Interests section - technology & extra-curricular
+- [ ] Helm - to update image version in K8s manifest
+- [ ] Live/Ready Probes
+- [ ] Trigger it from a CI/CD tool
+- [ ] Automated testing, inc security scanning
+- [ ] Availability checking
 
-- add an Interests section - technology & extra-curricular
-- PDF build is broken
+---
 
-- Helm - to update image version in K8s manifest
-- SSL
-- Live/Ready Probes
-- Analytics
-- Ansible-ise the publish workflow
-- Trigger it from a CI/CD tool
-- Secrets/variables for terraform
-- automated testing, inc security scanning
-- availability checking
+## How To
 
+1. Install gitbook locally - on my mac, `brew install gitbook` does the trick
+2. `cd content/ && gitbook install` to download plugins specified in `book.json`. Repeat if you modify this file
+3. Build assets locally with `./build.sh`
+4. Deploy assets to GCP with `./deploy.sh`
 
--------------------------------------------------------------------------------
+---
 
-Installation:
+## Running locally
 
-git clone https://github.com/alexdmoss/moss.work
-@TODO: Finish this section
+```
+cd content/ && gitbook serve
+```
 
--------------------------------------------------------------------------------
+---
+
+## Known Issues
+
+1. You need to pre-install the additional plugins locally first (they appear in the content/node_modules/ directory). In theory the gitbook entrypoint script should be able to sort these out, but it doesn't seem to be working correctly for me.
+2. To get the Google Analytics plugin working, I had to manually edit the package.json to remove a dependency on gitbook >= v4.0.0-alpha.0. I manually edited it to require 3.2.3. I couldn't get v4.0.0 to install properly.
