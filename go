@@ -21,6 +21,7 @@ function render() {
   _console_msg "Building gitbook assets" INFO true
 
   cd content/
+  gitbook install hide-published-with image-class image-class bring-yer-favicon ga
   gitbook build
   cd ../
 
