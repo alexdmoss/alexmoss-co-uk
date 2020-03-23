@@ -9,10 +9,23 @@ function help() {
   echo -e "Usage: go <command>"
   echo -e
   echo -e "    help               Print this help"
+  echo -e "    render             Creates gitbook assets"
   echo -e "    build              Build binary locally"
   echo -e "    deploy             Deploy to Kubernetes"
   echo -e 
   exit 0
+}
+
+function render() {
+
+  _console_msg "Building gitbook assets" INFO true
+
+  cd content/
+  gitbook build
+  cd ../
+
+  _console_msg "Build complete" INFO true
+
 }
 
 function build() {
@@ -27,23 +40,13 @@ function build() {
     image=${IMAGE_NAME}:latest
   fi
 
-  _console_msg "Building gitbook assets" INFO true
-
-  cd content/
-  gitbook build
-  cd ../
-
   _console_msg "Building docker image" INFO true
 
   docker build -t ${image} .
 
   if [[ ${DRONE:-} == "true" ]]; then
     docker push ${image}
-  else
-    rm -r ./content/_book
   fi
-
-  rm -rf ./build/
 
   _console_msg "Build complete" INFO true
 
