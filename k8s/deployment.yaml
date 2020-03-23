@@ -30,7 +30,7 @@ spec:
               topologyKey: "kubernetes.io/hostname"
       containers:
         - name: moss-work
-          image: SET_BY_CI
+          image: moss-work:SET_BY_CI
           resources:
             requests:
               cpu: 10m
