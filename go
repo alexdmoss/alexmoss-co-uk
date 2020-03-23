@@ -133,7 +133,7 @@ function ctrl_c() {
 
 trap ctrl_c INT
 
-if [[ ${1:-} =~ ^(help|build|deploy)$ ]]; then
+if [[ ${1:-} =~ ^(help|build|deploy|render)$ ]]; then
   COMMAND=${1}
   shift
   $COMMAND "$@"
