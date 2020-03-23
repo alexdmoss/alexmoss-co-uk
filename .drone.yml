@@ -5,6 +5,12 @@ name: moss-work
 steps:
   - name: build
     image: mosstech/drone-gke-deployer:latest
+    environment:
+      GCP_PROJECT_ID: moss-work
+      K8S_DEPLOYER_CREDS:
+        from_secret: MW_K8S_DEPLOYER
+      K8S_CLUSTER_NAME:
+        from_secret: MW_K8S_CLUSTER_NAME
     commands:
       - ./go build
     when:
