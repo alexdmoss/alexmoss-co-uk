@@ -57,7 +57,7 @@ function deploy() {
 
   _assert_variables_set GCP_PROJECT_ID
 
-  pushd $(dirname $BASH_SOURCE[0]) >/dev/null
+  pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
   # when running in CI, we need to set up gcloud/kubeconfig
   if [[ ${DRONE:-} == "true" ]]; then

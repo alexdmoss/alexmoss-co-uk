@@ -1,2 +1,4 @@
-FROM nginx:1.13.3-alpine
-ADD content/_book /usr/share/nginx/html
+FROM mosstech/nginx-with-prometheus:1.1
+COPY config/default.conf /etc/nginx/conf.d/
+COPY content/_book/ /app/
+
