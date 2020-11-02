@@ -2,7 +2,7 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: moss-work-pdb
+  name: moss-work
 spec:
   minAvailable: 1
   selector:
