@@ -77,6 +77,8 @@ function deploy() {
 
   _console_msg "Applying Kubernetes yaml"
 
+  kubectl apply -f namespace.yaml
+
   kustomize edit set image ${IMAGE_NAME}=eu.gcr.io/${GCP_PROJECT_ID}/${IMAGE_NAME}:${DRONE_COMMIT_SHA}
   kustomize build . | kubectl apply -f -
   kubectl rollout status deploy/${IMAGE_NAME} -n moss-work
