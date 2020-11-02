@@ -1,4 +1,4 @@
-# https://www.moss.work/
+# https://moss.work
 
 moss.work is - on the surface at least - an online CV describing the career of Alex Moss.
 
@@ -13,7 +13,6 @@ It was my first foray into Docker/Kubernetes, so probably not of the highest sta
 ## To Do
 
 - [ ] Add an Interests section - technology & extra-curricular
-- [ ] Helm - to update image version in K8s manifest
 - [ ] Live/Ready Probes
 - [ ] Trigger it from a CI/CD tool
 - [ ] Automated testing, inc security scanning
@@ -23,10 +22,9 @@ It was my first foray into Docker/Kubernetes, so probably not of the highest sta
 
 ## How To
 
-1. Install gitbook locally - on my mac, `brew install gitbook` does the trick
-2. `cd content/ && gitbook install` to download plugins specified in `book.json`. Repeat if you modify this file
-3. Build assets locally with `./build.sh`
-4. Deploy assets to GCP with `./deploy.sh`
+Install gitbook locally - on my mac, `brew install gitbook` does the trick
+
+You can then use the `./go` bash script wrapper - run it without arguments to see the options. This can be used to build locally as well as part of CI.
 
 ---
 
