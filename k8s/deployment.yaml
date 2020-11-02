@@ -12,6 +12,7 @@ spec:
       maxUnavailable: 0
   template:
     spec:
+
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -22,20 +23,20 @@ spec:
               topologyKey: "kubernetes.io/hostname"
             weight: 100
       containers:
-        - name: moss-work
-          image: moss-work:SET_BY_CI
-          resources:
-            requests:
-              cpu: 10m
-              memory: 50Mi
-            limits:
-              cpu: 100m
-              memory: 250Mi
-          ports:
-            - name: http
-              containerPort: 8080
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 101
-            runAsGroup: 101
-            allowPrivilegeEscalation: false
+      - name: moss-work
+        image: moss-work:SET_BY_CI
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 250Mi
+        ports:
+        - name: http
+          containerPort: 8080
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          runAsGroup: 101
+          allowPrivilegeEscalation: false
