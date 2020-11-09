@@ -9,6 +9,6 @@ spec:
     matchLabels:
       app: moss-work
   endpoints:
-    - port: http
+    - port: metrics
       path: /metrics
       interval: 30s

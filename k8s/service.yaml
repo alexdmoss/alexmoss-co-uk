@@ -8,3 +8,13 @@ spec:
   ports:
     - port: 8080
       name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moss-work-metrics
+spec:
+  type: NodePort
+  ports:
+    - port: 9145
+      name: metrics
