@@ -11,19 +11,18 @@ steps:
       event: push
       branch: master
 
-  - name: publish  
-    image: plugins/gcr
-    settings:
-      registry: eu.gcr.io
-      repo:
-        from_secret: MW_GCR_REPO
-      tags: ${DRONE_COMMIT_SHA}
-      json_key:
-        from_secret: MW_PUSH_CREDS
+  - name: build  
+    image: mosstech/gcloud-and-docker:latest
+    environment:
+      GCP_PROJECT_ID:
+        from_secret: MW_PROJECT_ID
+      K8S_DEPLOYER_CREDS:
+        from_secret: MW_K8S_DEPLOYER
+    commands:
+      - ./go build
     when:
       event: push
       branch: master
-
 
   - name: deploy
     image: mosstech/drone-gke-deployer:latest
