@@ -12,7 +12,7 @@ steps:
       branch: master
 
   - name: build  
-    image: mosstech/gcloud-and-docker:latest
+    image: mosstech/gcloud-and-docker:318.0.0
     environment:
       GCP_PROJECT_ID:
         from_secret: MW_PROJECT_ID
