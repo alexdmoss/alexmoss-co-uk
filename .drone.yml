@@ -20,6 +20,8 @@ steps:
       tags: ${DRONE_COMMIT_SHA}
       json_key:
         from_secret: MW_PUSH_CREDS
+      config:
+        from_secret: DOCKER_AUTH_CONFIG
     when:
       event: push
       branch: master
