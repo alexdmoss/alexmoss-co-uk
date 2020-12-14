@@ -15,10 +15,12 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - podAffinityTerm:
-              labelSelector:
-                matchLabels:
-                  app: moss-work
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - moss-work
               topologyKey: "kubernetes.io/hostname"
             weight: 100
       containers:
