@@ -45,8 +45,8 @@ spec:
           runAsGroup: 101
           allowPrivilegeEscalation: false
         volumeMounts:
-          - mountPath: /var/cache/nginx/data
-            name: cache-volume
+        - mountPath: /var/cache/nginx/data
+          name: cache-volume
       volumes:
-        - name: cache-volume
-          emptyDir: {}
+      - name: cache-volume
+        emptyDir: {}
