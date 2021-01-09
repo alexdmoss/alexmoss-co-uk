@@ -18,3 +18,14 @@ spec:
   ports:
     - port: 9145
       name: metrics
+---
+apiVersion: v1
+kind: Service 
+metadata:     
+  name: moss-work-istio
+spec:
+  type: NodePort
+  ports:
+  - name: istio-proxy
+    port: 15020
+    protocol: TCP
