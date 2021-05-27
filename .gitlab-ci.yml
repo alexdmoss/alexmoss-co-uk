@@ -9,11 +9,13 @@ variables:
   IMAGE_NAME: moss-work
   DOMAIN: moss.work
 
-  
+
 render:
   stage: render
   image: mosstech/ci-tools:latest
   script:
+    - apt-get update && apt-get install -y npm
+    - npm install gitbook-cli -g
     - ./go render
 
 build:
