@@ -1,4 +1,4 @@
-# https://moss.work
+# moss.work
 
 moss.work is - on the surface at least - an online CV describing the career of Alex Moss.
 
@@ -30,7 +30,7 @@ You can then use the `./go` bash script wrapper - run it without arguments to se
 
 ## Running locally
 
-```
+```sh
 cd content/ && gitbook serve
 ```
 

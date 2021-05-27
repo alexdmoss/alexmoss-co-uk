@@ -1,0 +1,41 @@
+stages:
+- render
+- build
+- deploy
+
+variables:
+  IMAGE_NAME: moss-work
+  DOMAIN: moss.work
+
+render:
+  stage: render
+  image: mosstech/ci-tools:latest
+  script:
+    - ./go render
+
+build:
+  stage: build
+  image: mosstech/gcloud-and-docker:latest
+  services:
+    - docker:dind
+  before_script:
+  - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - gcloud auth configure-docker
+  script:
+    - ./go build
+
+deploy:
+  stage: deploy
+  image: mosstech/ci-tools:latest
+  before_script:
+  - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - region=$(gcloud container clusters list --project=${GCP_PROJECT_ID} --filter "NAME=${CLUSTER_NAME}" --format "value(zone)")
+  - gcloud container clusters get-credentials ${CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
+  script:
+    - ./go deploy
+
+smoke:
+  stage: smoke
+  image: mosstech/ci-tools:latest
+  script:
+    - ./go smoke ${DOMAIN}

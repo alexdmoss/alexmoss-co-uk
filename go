@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ -z ${IMAGE_NAME:-} ]]; then
-  IMAGE_NAME=moss-work
-fi 
-
 function help() {
   echo -e "Usage: go <command>"
   echo -e
@@ -31,60 +27,72 @@ function render() {
 
 function build() {
 
-  if [[ ${DRONE:-} == "true" ]]; then
-    _assert_variables_set GCP_PROJECT_ID K8S_DEPLOYER_CREDS DRONE_COMMIT_SHA
-    image=eu.gcr.io/${GCP_PROJECT_ID}/${IMAGE_NAME}:${DRONE_COMMIT_SHA}
-    _console_msg "-> Authenticating with GCloud"
-    echo "${K8S_DEPLOYER_CREDS}" | gcloud auth activate-service-account --key-file -
-    gcloud auth configure-docker
-  else
-    image=${IMAGE_NAME}:latest
-  fi
+  _assert_variables_set GCP_PROJECT_ID IMAGE_NAME
 
+  image=eu.gcr.io/${GCP_PROJECT_ID}/${IMAGE_NAME}:${CI_COMMIT_SHA}
+  
   _console_msg "Building docker image" INFO true
 
-  docker build -t ${image} .
-
-  if [[ ${DRONE:-} == "true" ]]; then
-    docker push ${image}
-  fi
-
+  docker build -t "${image}" .
+  docker push "${image}"
+  
   _console_msg "Build complete" INFO true
 
 }
 
 function deploy() {
 
-  _assert_variables_set GCP_PROJECT_ID
+  _assert_variables_set GCP_PROJECT_ID IMAGE_NAME
 
-  pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
-
-  # when running in CI, we need to set up gcloud/kubeconfig
-  if [[ ${DRONE:-} == "true" ]]; then
-    _assert_variables_set K8S_DEPLOYER_CREDS K8S_CLUSTER_NAME DRONE_COMMIT_SHA
-    _console_msg "-> Authenticating with GCloud"
-    echo "${K8S_DEPLOYER_CREDS}" | gcloud auth activate-service-account --key-file -
-    region=$(gcloud container clusters list --project=${GCP_PROJECT_ID} --filter "NAME=${K8S_CLUSTER_NAME}" --format "value(zone)")
-    _console_msg "-> Authenticating to cluster ${K8S_CLUSTER_NAME} in project ${GCP_PROJECT_ID} in ${region}"
-    gcloud container clusters get-credentials ${K8S_CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
-  else
-    _assert_variables_set DRONE_COMMIT_SHA
-  fi
-
-  popd >/dev/null
-
-  pushd "k8s/" >/dev/null
+  pushd "$(dirname "${BASH_SOURCE[0]}")/k8s" >/dev/null
 
   _console_msg "Applying Kubernetes yaml"
 
   kubectl apply -f namespace.yaml
-
-  kustomize edit set image ${IMAGE_NAME}=eu.gcr.io/${GCP_PROJECT_ID}/${IMAGE_NAME}:${DRONE_COMMIT_SHA}
+  kustomize edit set image "${IMAGE_NAME}"=eu.gcr.io/"${GCP_PROJECT_ID}"/"${IMAGE_NAME}":"${CI_COMMIT_SHA}"
   kustomize build . | kubectl apply -f -
-  kubectl rollout status deploy/${IMAGE_NAME} -n moss-work
+  kubectl rollout status deploy/"${IMAGE_NAME}" -n moss-work
 
   popd >/dev/null
 
+}
+
+
+function smoke() {
+
+    local error=0
+
+    _assert_variables_set DOMAIN
+
+    _console_msg "Checking HTTP status codes for https://"${DOMAIN}"/ ..."
+    
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ "is the website describing the career"
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/profile/TechnicalSkills.html "modern technology"
+
+    if [[ "${error:-}" != "0" ]]; then
+        _console_msg "Tests FAILED - see messages above for for detail" ERROR
+        exit 1
+    else
+        _console_msg "All local tests passed!"
+    fi
+
+}
+
+function _smoke_test() {
+    local domain=$1
+    local url=$2
+    local match=$3
+    output=$(curl -H "Host: ${domain}" -s -k -L -w "\nHTTP-%{http_code}" ${url} || true)
+    if [[ $(echo ${output} | grep -c "HTTP-200") -eq 0 ]]; then
+        _console_msg "Test FAILED - ${url} - non-200 return code" ERROR
+        error=1
+    fi
+    if [[ $(echo ${output} | grep -c "${match}") -eq 0 ]]; then 
+        _console_msg "Test FAILED - ${url} - missing phrase" ERROR
+        error=1
+    else
+        _console_msg "Test PASSED - ${url}" INFO
+    fi
 }
 
 function _assert_variables_set() {
