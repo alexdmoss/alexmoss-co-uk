@@ -17,10 +17,15 @@ render:
     - apt-get update && apt-get install -y npm
     - npm install gitbook-cli -g
     - ./go render
+  artifacts:
+    paths:
+    - content/_book/**
+    expire_in: 3 days
 
 build:
   stage: build
-  image: mosstech/gcloud-and-docker:latest
+  needs: ["render"]
+  image: mosstech/gcloud-and-docker:324.0.0
   services:
     - docker:dind
   before_script:
