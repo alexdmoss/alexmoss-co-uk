@@ -2,11 +2,14 @@ stages:
 - render
 - build
 - deploy
+- smoke
+
 
 variables:
   IMAGE_NAME: moss-work
   DOMAIN: moss.work
 
+  
 render:
   stage: render
   image: mosstech/ci-tools:latest
