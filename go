@@ -8,6 +8,7 @@ function help() {
   echo -e "    render             Creates gitbook assets"
   echo -e "    build              Build binary locally"
   echo -e "    deploy             Deploy to Kubernetes"
+  echo -e "    smoke              Basic smoke tests"
   echo -e 
   exit 0
 }
@@ -144,7 +145,7 @@ function ctrl_c() {
 
 trap ctrl_c INT
 
-if [[ ${1:-} =~ ^(help|build|deploy|render)$ ]]; then
+if [[ ${1:-} =~ ^(help|build|deploy|render|smoke)$ ]]; then
   COMMAND=${1}
   shift
   $COMMAND "$@"

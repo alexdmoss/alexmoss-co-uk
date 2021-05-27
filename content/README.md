@@ -14,6 +14,6 @@ Fair warning - I mostly created this website to give me something simple to use 
 
 ### Contact Me
 
-If you'd like to contact me, I can be reached at [alex@moss.work](mailto:alex@moss.work).
+If you'd like to contact me, I can be reached at [alex@moss.work](mailto:alex@moss.work)
 
 ----
