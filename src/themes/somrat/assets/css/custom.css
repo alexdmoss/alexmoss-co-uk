@@ -1,0 +1,80 @@
+.larger {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+}
+
+.larger p {
+    margin-top: 2rem;
+}
+
+.padded h4 {
+    margin-bottom: 1rem !important;
+}
+
+.padded hr {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.about-me .hvr-icon-wobble-horizontal:before,
+.architect .hvr-icon-wobble-horizontal:before {
+    content: "\f0a9";
+    position: absolute;
+    font-family: 'Font Awesome 5 Free';
+    right: 8px;
+    font-weight: 900;
+    top: 6px;
+    font-size: 16px;
+}
+
+.about-me-images img {
+    max-width: 250px;
+    width: auto !important;
+}
+  
+.about-me-images img:hover {
+    max-width: 250px;
+}
+
+.about-me-text li {
+    color: #6f6f6f;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.engineer-images, .architect-images {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.architect {
+    width: 100%;
+    background: #4e4e4e;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+}
+
+.architect h1, .architect p, .architect li {
+    color: #fff !important;
+}
+
+.architect a {
+    color: #313131;
+    background: #fff;
+}
+
+.service-label {
+    margin-top: 10px !important;
+}
+
+.credit a {
+    text-decoration: underline;
+}
+
+.submit {
+    width: 200px !important;
+}

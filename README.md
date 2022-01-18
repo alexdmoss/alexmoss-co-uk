@@ -1,42 +1,56 @@
 # moss.work
 
-moss.work is - on the surface at least - an online CV describing the career of Alex Moss.
+[moss.work](https://moss.work) is - on the surface at least - an online CV describing the career of me, Alex Moss.
 
-In truth, it serves as a way to experiment with cloud automation technologies by using a very simple application.
-
-The technology stack is basically GitbookIO (although this is not out of active development, so probably ought to replace it!).
-
-It was my first foray into Docker/Kubernetes, so probably not of the highest standard :) I'll try to remember to retro some of the other things I learn as I go back into the build.
+It also serves as a way for me to experiment with some cloud-native technologies using a very simple application.
 
 ---
 
-## To Do
+## Tech
 
-- [ ] Add an Interests section - technology & extra-curricular
-- [ ] Live/Ready Probes
-- [ ] Trigger it from a CI/CD tool
-- [ ] Automated testing, inc security scanning
-- [ ] Availability checking
-
----
-
-## How To
-
-Install gitbook locally - on my mac, `brew install gitbook` does the trick
-
-You can then use the `./go` bash script wrapper - run it without arguments to see the options. This can be used to build locally as well as part of CI.
+- [ ] Bring external deps in
+- [ ] Dashboard
+- [ ] Alerts
+- [ ] Availability checks
 
 ---
 
-## Running locally
+## Theme Edits
 
-```sh
-cd content/ && gitbook serve
-```
+The sections I wanted are different from what the theme ships with. You can control this by editing `themes/somrat/layouts/index.html` to control the filenames used etc.
 
----
+These were the sections I ended up with:
 
-## Known Issues
+0. Banner
+1. About, Experience + Skills
+2. Services --> Tech Skills, extend with words
+   - Ditch the call to action
+3. Platform Engineering like About
+4. Cloud Architecture like About but reversed
+   - [removed] Portfolio - keep, link to other sites
+5. Education
+6. Testimonials --> Interests
+7. Fun Facts
+8. Contact
 
-1. You need to pre-install the additional plugins locally first (they appear in the content/node_modules/ directory). In theory the gitbook entrypoint script should be able to sort these out, but it doesn't seem to be working correctly for me.
-2. To get the Google Analytics plugin working, I had to manually edit the package.json to remove a dependency on gitbook >= v4.0.0-alpha.0. I manually edited it to require 3.2.3. I couldn't get v4.0.0 to install properly.
+### Other Adjustments
+
+1. There's some custom CSS added in `custom.css`.
+2. I disabled the tags + related posts functionality in `themes/somrat/layouts/_default/single.html`, as I didn't want to use them and they looked odd with blank info.
+3. I edited the "Read More" links to have a forward arrow instead of down, and therefore a different animation too. This is in `index.html`.
+4. I edited the portrait photo in the About section to not be width: 100% and to align it to the center of the div by setting `mx-auto` in `index.html`.
+5. Added `contact.js` (my own code) and linked to it in `script.html`. For this to work I also added `jqBootstrapValidation.js` (you can find this easily enough on t'interwebz).
+6. Disabled the Portfolio section in `index.html`. Didn't need it for this content.
+7. Created a 404 page - it was blank. See `404.html`.
+8. I also deleted several assets that weren't used - such as screenshots and example site for the theme.
+
+## Local Development
+
+`./go run`. You need to have Hugo installed (tested with `hugo v0.90.1+extended`).
+
+## Other Themes
+
+As an aside, I considered the following other Hugo themes before settling the `somrat` one:
+
+- [port-hugo](https://github.com/tylerjlawson/port-hugo) - pretty similar to this one
+- [timer-hugo](https://github.com/themefisher/timer-hugo)

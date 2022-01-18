@@ -11,4 +11,4 @@ resources:
   - ingress.yaml
   - pdb.yaml
   - service.yaml
-  - servicemonitor.yaml
+  - service-monitor.yaml

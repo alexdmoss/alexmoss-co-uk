@@ -1,7 +1,15 @@
-.secret/*
+
+.terraform
+*.tfplan
+*.tfstate
+*.tfstate.backup
+
+*.iml
 *.DS_Store
 *.swp
-**/node_modules/**
-**/OLD/**
 
-content/_book/**
+**/public/**
+**/www/**
+
+src/.hugo_build.lock
+src/resources/_gen/**
