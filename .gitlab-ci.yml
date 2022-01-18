@@ -1,34 +1,16 @@
 stages:
-- render
-- build
-- deploy
-- smoke
-
+  - build
+  - deploy
+  - smoke
 
 variables:
-  IMAGE_NAME: moss-work
-  DOMAIN: moss.work
+  IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/moss-work
 
-
-render:
-  stage: render
-  only:
-    - master
-  image: mosstech/ci-tools:latest
-  script:
-    - apt-get update && apt-get install -y npm
-    - npm install gitbook-cli -g
-    - ./go render
-  artifacts:
-    paths:
-    - content/_book/**
-    expire_in: 3 days
 
 build:
   stage: build
-  only:
-    - master
-  needs: ["render"]
+  # only:
+  # - master
   image: mosstech/gcloud-and-docker:324.0.0
   variables:
     DOCKER_HOST: tcp://docker:2375/
@@ -40,11 +22,11 @@ build:
   - gcloud auth configure-docker --quiet
   script:
     - ./go build
-
+    
 deploy:
   stage: deploy
-  only:
-    - master
+  # only:
+  # - master
   image: mosstech/ci-tools:latest
   before_script:
   - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
@@ -55,6 +37,10 @@ deploy:
 
 smoke:
   stage: smoke
+  # only:
+  #   - master
   image: mosstech/ci-tools:latest
+  dependencies:
+    - deploy
   script:
-    - ./go smoke ${DOMAIN}
+    - ./go smoke

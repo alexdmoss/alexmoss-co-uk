@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+{{ with .GetPage "01-about" }}
+<style>{{.Params.custom_css | safeCSS}}</style>
+<section class="about-me {{.Params.custom_class}}" {{.Params.custom_attributes | safeHTMLAttr}} id="about">
+  <div class="container">
+    <div class="row about-me-holder">
+      <div class="col-lg-6 col-md-6 col-sm-6 about-me-text d-flex align-self-center">
+        <div class="text-holder wow fadeInUp" data-wow-duration="1.5s">
+          <h1>Four-Oh-Four</h1>
+          <div class="content">
+              <p>Oh no, the page you requested could not be found!</p>
+              <p>Sorry about that. You can return to the home page via the link below:</p>
+            </div>
+          <a href="https://moss.work/" class="download-cv hvr-icon-wobble-horizontal"> Return Home &nbsp; &nbsp; &nbsp;</a>
+        </div>
+      </div>
+      {{ with .Params.image }}
+      <div class="col-lg-6 col-sm-6 col-9 about-me-images wow fadeInUp" data-wow-duration="1.5s">
+        <img class="img-fluid" src="/images/icons/web-development.png" alt="404">
+      </div>
+      {{ end }}
+    </div>
+
+  </div>
+</section>
+{{ end }}
+
+<script>plausible("404",{ props: { path: document.location.pathname } });</script>
+
+<a href="#home" class="scroll-up hvr-icon-up"></a>
+
+{{ end }}

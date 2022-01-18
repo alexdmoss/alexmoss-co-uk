@@ -12,41 +12,54 @@ spec:
       maxUnavailable: "50%"
   template:
     spec:
+      containers:
+        - name: moss-work
+          image: moss-work:SET_BY_CI
+          ports:
+            - name: http
+              containerPort: 32080
+            - name: metrics
+              containerPort: 9145
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+          workingDir: /app
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /var/cache/nginx/data
+              name: cache-volume
+          resources:
+            requests:
+              cpu: 10m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 250Mi
+      volumes:
+        - name: cache-volume
+          emptyDir: {}
+      restartPolicy: Always
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
               labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - moss-work
+                matchLabels:
+                  app: moss-work
               topologyKey: "kubernetes.io/hostname"
             weight: 100
-      containers:
-      - name: moss-work
-        image: moss-work:SET_BY_CI
-        resources:
-          requests:
-            cpu: 10m
-            memory: 50Mi
-          limits:
-            cpu: 100m
-            memory: 250Mi
-        ports:
-        - name: http
-          containerPort: 8080
-        - name: metrics
-          containerPort: 9145
-        securityContext:
-          runAsNonRoot: true
-          runAsUser: 101
-          runAsGroup: 101
-          allowPrivilegeEscalation: false
-        volumeMounts:
-        - mountPath: /var/cache/nginx/data
-          name: cache-volume
-      volumes:
-      - name: cache-volume
-        emptyDir: {}
