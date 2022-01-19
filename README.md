@@ -42,7 +42,8 @@ These were the sections I ended up with:
 5. Added `contact.js` (my own code) and linked to it in `script.html`. For this to work I also added `jqBootstrapValidation.js` (you can find this easily enough on t'interwebz).
 6. Disabled the Portfolio section in `index.html`. Didn't need it for this content.
 7. Created a 404 page - it was blank. See `404.html`.
-8. I also deleted several assets that weren't used - such as screenshots and example site for the theme.
+8. Replaced remote sourcing of fontawesome and rubik fonts with local copies. I like to minimise my external dependencies!
+9. I also deleted several assets that weren't used - such as screenshots and example site for the theme.
 
 ## Local Development
 

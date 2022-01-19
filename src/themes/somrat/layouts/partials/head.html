@@ -11,7 +11,6 @@
   {{ hugo.Generator }}
 
   <!-- plugins -->
-  <link rel="preconnect" href="https://fonts.gstatic.com">
   {{ range site.Params.plugins.css }}
   <link rel="stylesheet" href="{{ .link | absURL }}">
   {{ end }}
@@ -23,6 +22,14 @@
   <!-- Custom stylesheet -->
   {{ $custom := resources.Get "css/custom.css" | minify }}
   <link rel="stylesheet" href="{{ $custom.Permalink }}" media="screen">
+
+  <!-- Font Awesome stylesheet -->
+  {{ $font_awesome := resources.Get "css/font-awesome.all.min.css" }}
+  <link rel="stylesheet" href="{{ $font_awesome.Permalink }}" media="screen">
+  
+  <!-- Fonts stylesheet -->
+  {{ $fonts := resources.Get "css/fonts.css" | minify }}
+  <link rel="stylesheet" href="{{ $fonts.Permalink }}" media="screen">
 
   <!--Favicon-->
   <link rel="shortcut icon" href="{{ site.Params.favicon | absURL }}" type="image/x-icon">
