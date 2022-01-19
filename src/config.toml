@@ -62,7 +62,7 @@ link = "plugins/owl-carousel/owl.carousel.min.js"
 [params]
 favicon = "images/favicon.png"
 logo_light = "images/logo.png"
-#logo_dark = "images/logo-dark.png"
+logo_dark = "images/logo-dark.png"
 logo_width = "150px"
 description = "Website describing the career of Alex Moss - Platform Engineering Lead and former Cloud Architect for https://www.johnlewis.com"
 author = "Alex Moss"
