@@ -46,9 +46,10 @@
   <meta property="og:image" content="{{ . | absURL }}" />
   {{ end }}
   {{ template "_internal/opengraph.html" . }}
-  {{ template "_internal/google_analytics.html" . }}
 
-  <script defer data-domain="moss.work" src="https://plausible.alexos.dev/js/plausible.outbound-links.js"></script>
+  {{ $visits := resources.Get "js/visits.js" | minify}}
+  <script defer data-api="/api/event" data-domain="moss.work" src="{{ $visits.Permalink }}"></script>
+
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
 </head>
