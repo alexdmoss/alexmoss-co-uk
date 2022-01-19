@@ -8,7 +8,6 @@ It also serves as a way for me to experiment with some cloud-native technologies
 
 ## Tech
 
-- [ ] Bring external deps in
 - [ ] Dashboard
 - [ ] Alerts
 - [ ] Availability checks
