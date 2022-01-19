@@ -2,7 +2,7 @@
 title: ""
 bg_image: ""
 funfacts:
-- name : "GIT REPOS OWNED"
+- name : "GIT REPOSITORIES OWNED"
   image : "images/icons/works.png"
   count : "358"
   
@@ -10,7 +10,7 @@ funfacts:
   image : "images/icons/happy.png"
   count : "1000000"
 
-- name : "PRODUCTION MICROSERVICES"
+- name : "MICROSERVICES IN PRODUCTION"
   image : "images/icons/project.png"
   count : "767"
 
