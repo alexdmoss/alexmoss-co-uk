@@ -12,9 +12,9 @@ jQuery(document).ready(function (e) {
                 $.ajax({
                     type: 'POST',
                     crossDomain: true,
-                    url: 'https://contact.alexos.dev/api/email/moss.work',
+                    url: 'https://contact.alexos.dev/api/email/alexmoss.co.uk',
                     headers: {
-                        'API-Key': 'a47aa6.224e7324f63c300ee95d20231aeba3be',
+                        'API-Key': 'ec9349.86220fb9055348fb4ac8dfb4f1a0adc7',
                     },
                     data: $form.serialize(),
                     beforeSend: function (xhr, opts) {
