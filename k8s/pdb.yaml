@@ -2,9 +2,9 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: moss-work
+  name: alexmoss-co-uk
 spec:
   minAvailable: 1
   selector:
     matchLabels:
-      app: moss-work
+      app: alexmoss-co-uk

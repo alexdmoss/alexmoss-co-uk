@@ -1,7 +1,7 @@
 ################ default config ################
 
-baseURL = "https://moss.work"
-title = "moss.work | Alex Moss"
+baseURL = "https://alexmoss.co.uk"
+title = "alexmoss.co.uk | Alex Moss"
 theme = "somrat"
 publishDir = "../www"
 

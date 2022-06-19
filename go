@@ -77,9 +77,9 @@ function deploy() {
     pushd "k8s/" >/dev/null
 
     kubectl apply -f namespace.yaml
-    kustomize edit set image moss-work="${IMAGE_NAME}":"${CI_COMMIT_SHA}"
+    kustomize edit set image alexmoss-co-uk="${IMAGE_NAME}":"${CI_COMMIT_SHA}"
     kustomize build . | kubectl apply -f -
-    kubectl rollout status deploy/moss-work -n=moss-work --timeout=60s
+    kubectl rollout status deploy/alexmoss-co-uk -n=alexmoss-co-uk --timeout=60s
 
     _console_msg "Deployment complete" INFO true
 
@@ -101,32 +101,34 @@ function test() {
     fi
 
     if [[ -z ${image} ]]; then
-        image=moss-work:latest
+        image=alexmoss-co-uk:latest
     fi
 
-    docker run --rm -d --name moss-work -p 32080:32080 "${image}"
-    trap "docker rm -f moss-work >/dev/null 2>&1 || true" EXIT
+    docker run --rm -d --name alexmoss-co-uk -p 32080:32080 "${image}"
+    trap "docker rm -f alexmoss-co-uk >/dev/null 2>&1 || true" EXIT
 
     sleep 5     # wow really, does it actually need this? /sigh
 
-    _smoke_test "moss.work" http://${local_hostname}:32080/ 'moss.work | Alex Moss' 'Title'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<h4>Engineering Lead' 'Employment'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<span class="skillbar-title">Kubernetes</span>' 'Skills'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<h1>Engineering Lead</h1>' 'Engineering'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<h1>Cloud Architect</h1>' 'Architecture'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<h1>Education</h1>' 'Education'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<h2>Father</h2>' 'Interests'
-    _smoke_test moss.work http://${local_hostname}:32080/ '<p>CUPS OF COFFEE</p>' 'Facts'
-    _smoke_test moss.work http://${local_hostname}:32080/ 'Say Hello!</h1>' 'Contact'
-    _smoke_test moss.work http://${local_hostname}:32080/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
+    DOMAIN=alexmoss.co.uk
 
-    _smoke_test moss.work http://${local_hostname}:32080/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
-    _smoke_test moss.work http://${local_hostname}:32080/posts/architect/ 'As an architect, I have' 'Architect Detail'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ 'alexmoss.co.uk | Alex Moss' 'Title'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<h4>Engineering Lead' 'Employment'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<span class="skillbar-title">Kubernetes</span>' 'Skills'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<h1>Engineering Lead</h1>' 'Engineering'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<h1>Cloud Architect</h1>' 'Architecture'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<h1>Education</h1>' 'Education'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<h2>Father</h2>' 'Interests'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<p>CUPS OF COFFEE</p>' 'Facts'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ 'Say Hello!</h1>' 'Contact'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
 
-    _smoke_test moss.work http://${local_hostname}:32080/healthz 'OK' 'Healthz'
-    _smoke_test moss.work http://${local_hostname}:32080/404.html 'Four-Oh-Four' '404 Direct'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/architect/ 'As an architect, I have' 'Architect Detail'
+
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/healthz 'OK' 'Healthz'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/404.html 'Four-Oh-Four' '404 Direct'
 
     if [[ "${error:-}" != "0" ]]; then
         _console_msg "Tests FAILED - see messages above for for detail" ERROR
@@ -141,27 +143,25 @@ function smoke() {
 
     local error=0
 
-    _console_msg "Checking HTTP status codes for https://moss.work/ ..."
+    _console_msg "Checking HTTP status codes for https://${DOMAIN}/ ..."
     
-    _smoke_test moss.work https://moss.work/ 'moss.work | Alex Moss' 'Title'
-    _smoke_test moss.work https://moss.work/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
-    _smoke_test moss.work https://moss.work/ '<h4>Engineering Lead' 'Employment'
-    _smoke_test moss.work https://moss.work/ '<span class="skillbar-title">Kubernetes</span>' 'Skills'
-    _smoke_test moss.work https://moss.work/ '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
-    _smoke_test moss.work https://moss.work/ '<h1>Engineering Lead</h1>' 'Engineering'
-    _smoke_test moss.work https://moss.work/ '<h1>Cloud Architect</h1>' 'Architecture'
-    _smoke_test moss.work https://moss.work/ '<h1>Education</h1>' 'Education'
-    _smoke_test moss.work https://moss.work/ '<h2>Father</h2>' 'Interests'
-    _smoke_test moss.work https://moss.work/ '<p>CUPS OF COFFEE</p>' 'Facts'
-    _smoke_test moss.work https://moss.work/ 'Say Hello!</h1>' 'Contact'
-    _smoke_test moss.work https://moss.work/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
-
-    _smoke_test moss.work https://moss.work/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
-    _smoke_test moss.work https://moss.work/posts/architect/ 'As an architect, I have' 'Architect Detail'
-
-    _smoke_test moss.work https://moss.work/healthz 'OK' 'Healthz'
-    _smoke_test moss.work https://moss.work/404.html 'Four-Oh-Four' '404 Direct'
-    _smoke_test moss.work https://moss.work/woofwoof/ 'Sorry' '404 Redirected'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'alexmoss.co.uk | Alex Moss' 'Title'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h4>Engineering Lead' 'Employment'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<span class="skillbar-title">Kubernetes</span>' 'Skills'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Engineering Lead</h1>' 'Engineering'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Cloud Architect</h1>' 'Architecture'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Education</h1>' 'Education'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h2>Father</h2>' 'Interests'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<p>CUPS OF COFFEE</p>' 'Facts'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Say Hello!</h1>' 'Contact'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/architect/ 'As an architect, I have' 'Architect Detail'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/404.html 'Four-Oh-Four' '404 Direct'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/woofwoof/ 'Sorry' '404 Redirected'
 
     if [[ "${error:-}" != "0" ]]; then
         _console_msg "Tests FAILED - see messages above for for detail" ERROR

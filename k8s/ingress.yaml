@@ -2,35 +2,35 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: moss-work
+  name: alexmoss-co-uk
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
-    - secretName: moss-work-tls
+    - secretName: alexmoss-co-uk-tls
       hosts:
-        - moss.work
-        - www.moss.work
+        - alexmoss.co.uk
+        - www.alexmoss.co.uk
   rules:
-    - host: moss.work
+    - host: alexmoss.co.uk
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: moss-work
+                name: alexmoss-co-uk
                 port:
                   name: http
-    - host: www.moss.work
+    - host: www.alexmoss.co.uk
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: moss-work
+                name: alexmoss-co-uk
                 port:
                   name: http

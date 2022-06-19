@@ -2,27 +2,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: moss-work
+  name: alexmoss-co-uk
 spec:
   jobLabel: app
   selector:
     matchLabels:
-      app: moss-work
+      app: alexmoss-co-uk
   endpoints:
     - port: metrics
       path: /metrics
       interval: 30s
----
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: moss-work-istio
-spec:
-  jobLabel: app
-  selector:
-    matchLabels:
-      app: moss-work
-  endpoints:
-  - interval: 30s
-    path: /stats/prometheus
-    port: istio-proxy

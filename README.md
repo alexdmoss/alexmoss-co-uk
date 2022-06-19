@@ -1,6 +1,6 @@
-# moss.work
+# alexmoss.co.uk
 
-[moss.work](https://moss.work) is - on the surface at least - an online CV describing the career of me, Alex Moss.
+[alexmoss.co.uk](https://alexmoss.co.uk) is - on the surface at least - an online CV describing the career of me, Alex Moss.
 
 It also serves as a way for me to experiment with some cloud-native technologies using a very simple application.
 

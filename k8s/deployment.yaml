@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: moss-work
+  name: alexmoss-co-uk
 spec:
   replicas: 2
   strategy:
@@ -13,8 +13,8 @@ spec:
   template:
     spec:
       containers:
-        - name: moss-work
-          image: moss-work:SET_BY_CI
+        - name: alexmoss-co-uk
+          image: alexmoss-co-uk:SET_BY_CI
           ports:
             - name: http
               containerPort: 32080
@@ -60,6 +60,6 @@ spec:
           - podAffinityTerm:
               labelSelector:
                 matchLabels:
-                  app: moss-work
+                  app: alexmoss-co-uk
               topologyKey: "kubernetes.io/hostname"
             weight: 100

@@ -48,7 +48,7 @@
   {{ template "_internal/opengraph.html" . }}
 
   {{ $visits := resources.Get "js/visits.js" | minify}}
-  <script defer data-api="/api/event" data-domain="moss.work" src="{{ $visits.Permalink }}"></script>
+  <script defer data-api="/api/event" data-domain="alexmoss.co.uk" src="{{ $visits.Permalink }}"></script>
 
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
 
