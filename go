@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euoE pipefail
 
+export DOMAIN=alexmoss.co.uk
+
 function help() {
   echo -e "Usage: go <command>"
   echo -e
@@ -109,7 +111,6 @@ function test() {
 
     sleep 5     # wow really, does it actually need this? /sigh
 
-    DOMAIN=alexmoss.co.uk
 
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ 'alexmoss.co.uk | Alex Moss' 'Title'
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
