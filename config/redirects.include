@@ -1,0 +1,19 @@
+location ^~ /contact {
+    rewrite ^/contact.*$ $scheme://$server_name/#contact? permanent;
+}
+
+location ^~ /about {
+    rewrite ^/about.*$ $scheme://$server_name/#about? permanent;
+}
+
+location ^~ /bio {
+    rewrite ^/bio.*$ $scheme://$server_name/#about? permanent;
+}
+
+location ^~ /gallery {
+    rewrite ^/gallery.*$ $scheme://$server_name/? permanent;
+}
+
+location ^~ /index.php {
+    rewrite ^/index.php.*$ $scheme://$server_name/? permanent;
+}
