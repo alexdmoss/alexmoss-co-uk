@@ -13,8 +13,8 @@ build:
   - master
   image: mosstech/gcloud-and-docker:390.0.0
   variables:
-      DOCKER_HOST: tcp://docker:2375/
-      DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
   services:
     - docker:dind
   before_script:
