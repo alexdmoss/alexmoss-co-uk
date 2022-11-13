@@ -9,8 +9,6 @@ variables:
 
 build:
   stage: build
-  only:
-  - master
   image: mosstech/gcloud-and-docker:390.0.0
   variables:
     DOCKER_HOST: tcp://docker:2375/
@@ -34,6 +32,14 @@ deploy:
   - gcloud container clusters get-credentials ${CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
   script:
     - ./go deploy
+
+deploy-run:
+  stage: deploy
+  image: mosstech/ci-tools:latest
+  before_script:
+  - echo "${TEMP_RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  script:
+    - ./deploy.sh
 
 smoke:
   stage: smoke
