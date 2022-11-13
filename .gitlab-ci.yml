@@ -6,7 +6,6 @@ stages:
 variables:
   IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/moss-work
 
-
 build:
   stage: build
   only:
@@ -22,7 +21,7 @@ build:
   - gcloud auth configure-docker --quiet
   script:
     - ./go build
-    
+
 deploy:
   stage: deploy
   only:
@@ -44,3 +43,28 @@ smoke:
     - deploy
   script:
     - ./go smoke
+
+build-run:
+  stage: build
+  image: mosstech/gcloud-and-docker:390.0.0
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    IMAGE_NAME: eu.gcr.io/${MW_PROJECT_ID}/alexmoss-co-uk
+  services:
+    - docker:dind
+  before_script:
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - gcloud auth configure-docker --quiet
+  script:
+    - ./go build
+    
+deploy-run:
+  stage: deploy
+  image: mosstech/ci-tools:latest
+  variables:
+    IMAGE_NAME: eu.gcr.io/${MW_PROJECT_ID}/alexmoss-co-uk
+  before_script:
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  script:
+    - ./deploy.sh
