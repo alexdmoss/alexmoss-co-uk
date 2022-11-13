@@ -6,7 +6,8 @@ gcloud run deploy alexmoss-co-uk \
           --project "${MW_PROJECT_ID}" \
           --platform managed \
           --region europe-west1  \
-          --port 8001 \
+          --service-account run-alexmoss-co-uk@"${MW_PROJECT_ID}".iam.gserviceaccount.com \
+          --port 32080 \
           --min-instances 1 \
-          --max-instances 3 \
+          --max-instances 2 \
           --allow-unauthenticated

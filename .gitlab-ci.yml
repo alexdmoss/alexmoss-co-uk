@@ -54,7 +54,7 @@ build-run:
   services:
     - docker:dind
   before_script:
-  - echo "${TEMP_RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   - gcloud auth configure-docker --quiet
   script:
     - ./go build
@@ -65,6 +65,6 @@ deploy-run:
   variables:
     IMAGE_NAME: eu.gcr.io/${MW_PROJECT_ID}/alexmoss-co-uk
   before_script:
-  - echo "${TEMP_RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   script:
     - ./deploy.sh
