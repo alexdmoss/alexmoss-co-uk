@@ -6,6 +6,15 @@ It also serves as a way for me to experiment with some cloud-native technologies
 
 ---
 
+## Cloud Run Experiment
+
+- [ ] Sort out domain
+- [ ] Check other features
+  - [ ] auto-build just via `gcloud run`?
+  - [ ] If not, try `kaniko`
+
+---
+
 ## Tech
 
 - [ ] Dashboard
