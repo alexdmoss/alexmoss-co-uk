@@ -26,9 +26,9 @@ function build() {
 
     pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
-    _assert_variables_set GCP_PROJECT_ID SERVICE
+    _assert_variables_set PROJECT_ID SERVICE
 
-    image_name="eu.gcr.io/${GCP_PROJECT_ID}/${SERVICE}"
+    image_name="eu.gcr.io/${PROJECT_ID}/${SERVICE}"
 
     if [[ ${CI_SERVER:-} == "yes" ]]; then
         _assert_variables_set CI_COMMIT_SHA
@@ -73,18 +73,18 @@ function build() {
 
 function deploy() {
 
-  _assert_variables_set SERVICE CI_COMMIT_SHA GCP_PROJECT_ID REGION PORT
+  _assert_variables_set SERVICE CI_COMMIT_SHA PROJECT_ID REGION PORT
 
   pushd "$(dirname "${BASH_SOURCE[0]}")../" >/dev/null
 
   _console_msg "Deploying app ..." INFO true
 
   gcloud run deploy "${SERVICE}" \
-    --image "eu.gcr.io/${GCP_PROJECT_ID}/${SERVICE}":"${CI_COMMIT_SHA}" \
-    --project "${GCP_PROJECT_ID}" \
+    --image "eu.gcr.io/${PROJECT_ID}/${SERVICE}":"${CI_COMMIT_SHA}" \
+    --project "${PROJECT_ID}" \
     --platform managed \
     --region "${REGION}"  \
-    --service-account run-"${SERVICE}"@"${GCP_PROJECT_ID}".iam.gserviceaccount.com \
+    --service-account run-"${SERVICE}"@"${PROJECT_ID}".iam.gserviceaccount.com \
     --port "${PORT}" \
     --min-instances 1 \
     --max-instances 2 \
