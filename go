@@ -135,7 +135,7 @@ function test() {
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/architect/ 'As an architect, I have' 'Architect Detail'
 
-    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/healthz 'OK' 'Healthz'
+    # _smoke_test "${DOMAIN}" http://${local_hostname}:32080/healthz 'OK' 'Healthz'
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/404.html 'Four-Oh-Four' '404 Direct'
 
     if [[ "${error:-}" != "0" ]]; then
@@ -167,7 +167,7 @@ function smoke() {
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/architect/ 'As an architect, I have' 'Architect Detail'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
+    # _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/404.html 'Four-Oh-Four' '404 Direct'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/woofwoof/ 'Sorry' '404 Redirected'
 
