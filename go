@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euoE pipefail
 
-export DOMAIN=alexmoss.co.uk
 
 function help() {
   echo -e "Usage: go <command>"
@@ -72,20 +71,26 @@ function build() {
 
 function deploy() {
 
-    _assert_variables_set IMAGE_NAME CI_COMMIT_SHA
+  _assert_variables_set SERVICE IMAGE_NAME CI_COMMIT_SHA GCP_PROJECT_ID REGION PORT
 
-    _console_msg "Deploying app ..." INFO true
+  pushd "$(dirname "${BASH_SOURCE[0]}")../" >/dev/null
 
-    pushd "k8s/" >/dev/null
+  _console_msg "Deploying app ..." INFO true
 
-    kubectl apply -f namespace.yaml
-    kustomize edit set image alexmoss-co-uk="${IMAGE_NAME}":"${CI_COMMIT_SHA}"
-    kustomize build . | kubectl apply -f -
-    kubectl rollout status deploy/alexmoss-co-uk -n=alexmoss-co-uk --timeout=60s
+  gcloud run deploy "${SERVICE}" \
+    --image "${IMAGE_NAME}":"${CI_COMMIT_SHA}" \
+    --project "${GCP_PROJECT_ID}" \
+    --platform managed \
+    --region "${REGION}"  \
+    --service-account run-"${SERVICE}"@"${GCP_PROJECT_ID}".iam.gserviceaccount.com \
+    --port "${PORT}" \
+    --min-instances 1 \
+    --max-instances 2 \
+    --allow-unauthenticated
 
-    _console_msg "Deployment complete" INFO true
+  popd > /dev/null
 
-    popd >/dev/null
+  _console_msg "Deployment complete" INFO true
 
 }
 
