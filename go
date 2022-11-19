@@ -75,7 +75,7 @@ function deploy() {
 
   _assert_variables_set SERVICE CI_COMMIT_SHA PROJECT_ID REGION PORT
 
-  pushd "$(dirname "${BASH_SOURCE[0]}")../" >/dev/null
+  pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
   _console_msg "Deploying app ..." INFO true
 
