@@ -26,7 +26,9 @@ function build() {
 
     pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
-    _assert_variables_set IMAGE_NAME
+    _assert_variables_set GCP_PROJECT_ID SERVICE
+
+    image_name="eu.gcr.io/${GCP_PROJECT_ID}/${SERVICE}"
 
     if [[ ${CI_SERVER:-} == "yes" ]]; then
         _assert_variables_set CI_COMMIT_SHA
@@ -51,16 +53,16 @@ function build() {
 
     _console_msg "Baking docker image ..."
 
-    docker pull "${IMAGE_NAME}":latest || true
-    docker build --cache-from "${IMAGE_NAME}":latest --tag "${IMAGE_NAME}":latest .
+    docker pull "${image_name}":latest || true
+    docker build --cache-from "${image_name}":latest --tag "${image_name}":latest .
 
-    test "${IMAGE_NAME}":latest
+    test "${image_name}":latest
 
     if [[ ${CI_SERVER:-} == "yes" ]]; then
         _console_msg "Pushing image to registry ..."
-        docker tag "${IMAGE_NAME}":latest "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
-        docker push "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
-        docker push "${IMAGE_NAME}":latest
+        docker tag "${image_name}":latest "${image_name}":"${CI_COMMIT_SHA}"
+        docker push "${image_name}":"${CI_COMMIT_SHA}"
+        docker push "${image_name}":latest
     fi
 
     popd >/dev/null 
@@ -71,14 +73,14 @@ function build() {
 
 function deploy() {
 
-  _assert_variables_set SERVICE IMAGE_NAME CI_COMMIT_SHA GCP_PROJECT_ID REGION PORT
+  _assert_variables_set SERVICE CI_COMMIT_SHA GCP_PROJECT_ID REGION PORT
 
   pushd "$(dirname "${BASH_SOURCE[0]}")../" >/dev/null
 
   _console_msg "Deploying app ..." INFO true
 
   gcloud run deploy "${SERVICE}" \
-    --image "${IMAGE_NAME}":"${CI_COMMIT_SHA}" \
+    --image "eu.gcr.io/${GCP_PROJECT_ID}/${SERVICE}":"${CI_COMMIT_SHA}" \
     --project "${GCP_PROJECT_ID}" \
     --platform managed \
     --region "${REGION}"  \

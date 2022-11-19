@@ -5,7 +5,6 @@ stages:
 
 variables:
   GCP_PROJECT_ID: ${MW_PROJECT_ID}
-  IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/alexmoss-co-uk
   SERVICE: alexmoss-co-uk
   DOMAIN: alexmoss.co.uk
   REGION: europe-west1
@@ -17,7 +16,6 @@ build:
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
-    IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/alexmoss-co-uk
   services:
     - docker:dind
   before_script:
@@ -29,8 +27,6 @@ build:
 deploy:
   stage: deploy
   image: mosstech/ci-tools:latest
-  variables:
-    IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/alexmoss-co-uk
   before_script:
   - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   script:
