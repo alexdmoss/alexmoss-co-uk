@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euoE pipefail
 
+export DOMAIN=alexmoss.co.uk
 
 function help() {
   echo -e "Usage: go <command>"
@@ -26,9 +27,7 @@ function build() {
 
     pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
 
-    _assert_variables_set PROJECT_ID SERVICE
-
-    image_name="eu.gcr.io/${PROJECT_ID}/${SERVICE}"
+    _assert_variables_set IMAGE_NAME
 
     if [[ ${CI_SERVER:-} == "yes" ]]; then
         _assert_variables_set CI_COMMIT_SHA
@@ -53,16 +52,16 @@ function build() {
 
     _console_msg "Baking docker image ..."
 
-    docker pull "${image_name}":latest || true
-    docker build --cache-from "${image_name}":latest --tag "${image_name}":latest .
+    docker pull "${IMAGE_NAME}":latest || true
+    docker build --cache-from "${IMAGE_NAME}":latest --tag "${IMAGE_NAME}":latest .
 
-    test "${image_name}":latest
+    test "${IMAGE_NAME}":latest
 
     if [[ ${CI_SERVER:-} == "yes" ]]; then
         _console_msg "Pushing image to registry ..."
-        docker tag "${image_name}":latest "${image_name}":"${CI_COMMIT_SHA}"
-        docker push "${image_name}":"${CI_COMMIT_SHA}"
-        docker push "${image_name}":latest
+        docker tag "${IMAGE_NAME}":latest "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
+        docker push "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
+        docker push "${IMAGE_NAME}":latest
     fi
 
     popd >/dev/null 
@@ -73,26 +72,20 @@ function build() {
 
 function deploy() {
 
-  _assert_variables_set SERVICE CI_COMMIT_SHA PROJECT_ID REGION PORT
+    _assert_variables_set IMAGE_NAME CI_COMMIT_SHA
 
-  pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
+    _console_msg "Deploying app ..." INFO true
 
-  _console_msg "Deploying app ..." INFO true
+    pushd "k8s/" >/dev/null
 
-  gcloud run deploy "${SERVICE}" \
-    --image "eu.gcr.io/${PROJECT_ID}/${SERVICE}":"${CI_COMMIT_SHA}" \
-    --project "${PROJECT_ID}" \
-    --platform managed \
-    --region "${REGION}"  \
-    --service-account run-"${SERVICE}"@"${PROJECT_ID}".iam.gserviceaccount.com \
-    --port "${PORT}" \
-    --min-instances 1 \
-    --max-instances 2 \
-    --allow-unauthenticated
+    kubectl apply -f namespace.yaml
+    kustomize edit set image alexmoss-co-uk="${IMAGE_NAME}":"${CI_COMMIT_SHA}"
+    kustomize build . | kubectl apply -f -
+    kubectl rollout status deploy/alexmoss-co-uk -n=alexmoss-co-uk --timeout=60s
 
-  popd > /dev/null
+    _console_msg "Deployment complete" INFO true
 
-  _console_msg "Deployment complete" INFO true
+    popd >/dev/null
 
 }
 
@@ -135,7 +128,7 @@ function test() {
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/posts/architect/ 'As an architect, I have' 'Architect Detail'
 
-    # _smoke_test "${DOMAIN}" http://${local_hostname}:32080/healthz 'OK' 'Healthz'
+    _smoke_test "${DOMAIN}" http://${local_hostname}:32080/healthz 'OK' 'Healthz'
     _smoke_test "${DOMAIN}" http://${local_hostname}:32080/404.html 'Four-Oh-Four' '404 Direct'
 
     if [[ "${error:-}" != "0" ]]; then
@@ -167,7 +160,7 @@ function smoke() {
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/architect/ 'As an architect, I have' 'Architect Detail'
-    # _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
+    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/404.html 'Four-Oh-Four' '404 Direct'
     _smoke_test "${DOMAIN}" https://"${DOMAIN}"/woofwoof/ 'Sorry' '404 Redirected'
 

@@ -4,40 +4,39 @@ stages:
   - smoke
 
 variables:
-  PROJECT_ID: ${MW_PROJECT_ID}
-  SERVICE: alexmoss-co-uk
-  DOMAIN: alexmoss.co.uk
-  REGION: europe-west1
-  PORT: "32080"
+  IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/moss-work
+
 
 build:
   stage: build
+  only:
+  - master
   image: mosstech/gcloud-and-docker:390.0.0
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   services:
     - docker:dind
   before_script:
-  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   - gcloud auth configure-docker --quiet
   script:
     - ./go build
     
 deploy:
   stage: deploy
+  only:
+  - master
   image: mosstech/ci-tools:latest
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   before_script:
-  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - region=$(gcloud container clusters list --project=${GCP_PROJECT_ID} --filter "NAME=${CLUSTER_NAME}" --format "value(zone)")
+  - gcloud container clusters get-credentials ${CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
   script:
     - ./go deploy
 
 smoke:
   stage: smoke
+  only:
+    - master
   image: mosstech/ci-tools:latest
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   dependencies:
     - deploy
   script:
