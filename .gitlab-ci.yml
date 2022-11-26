@@ -15,9 +15,6 @@ build:
   image: mosstech/gcloud-and-docker:390.0.0
   rules:
   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
   services:
     - docker:dind
   before_script:
