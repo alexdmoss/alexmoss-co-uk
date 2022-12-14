@@ -13,6 +13,7 @@ spec:
     - secretName: alexmoss-co-uk-tls
       hosts:
         - alexmoss.co.uk
+        - www.alexmoss.co.uk
   rules:
     - host: alexmoss.co.uk
       http:
