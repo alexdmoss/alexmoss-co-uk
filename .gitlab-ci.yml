@@ -5,7 +5,11 @@ stages:
 
 variables:
   IMAGE_NAME: eu.gcr.io/${GCP_PROJECT_ID}/moss-work
-
+  PROJECT_ID: ${MW_PROJECT_ID}
+  SERVICE: alexmoss-co-uk
+  DOMAIN: alexmoss.co.uk
+  REGION: europe-west1
+  PORT: "32080"
 
 build:
   stage: build
@@ -41,3 +45,32 @@ smoke:
     - deploy
   script:
     - ./go smoke
+
+build-run:
+  stage: build
+  only:
+  - master
+  image: mosstech/gcloud-and-docker:390.0.0
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  services:
+    - docker:dind
+  before_script:
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  - gcloud auth configure-docker --quiet
+  script:
+    - ./scripts/build.sh
+
+deploy-run:
+  stage: deploy
+  only:
+  - master
+  image: mosstech/ci-tools:latest
+  rules:
+  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+  script:
+    - ./scripts/deploy.sh
+
+

@@ -1,2 +1,10 @@
 full-size-images/**
 .git
+bootstrap/
+content/
+k8s/
+src/
+
+.gitlab-ci.yml
+go
+scripts/
