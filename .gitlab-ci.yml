@@ -19,6 +19,7 @@ build:
   services:
     - docker:dind
   before_script:
+  - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; don
   - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   - gcloud auth configure-docker --quiet
   script:
@@ -54,6 +55,7 @@ build-run:
   services:
     - docker:dind
   before_script:
+  - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; don
   - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
   - gcloud auth configure-docker --quiet
   script:
