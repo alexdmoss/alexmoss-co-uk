@@ -47,28 +47,29 @@ smoke:
   script:
     - ./go smoke
 
-build-run:
-  stage: build
-  image: mosstech/gcloud-and-docker:390.0.0
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  services:
-    - docker:dind
-  before_script:
-  - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; done
-  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
-  - gcloud auth configure-docker --quiet
-  script:
-    - ./scripts/build.sh
+### not running this experiment currently
+# build-run:
+#   stage: build
+#   image: mosstech/gcloud-and-docker:390.0.0
+#   rules:
+#   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#   services:
+#     - docker:dind
+#   before_script:
+#   - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; done
+#   - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+#   - gcloud auth configure-docker --quiet
+#   script:
+#     - ./scripts/build.sh
 
-deploy-run:
-  stage: deploy
-  image: mosstech/ci-tools:latest
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-  before_script:
-  - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
-  script:
-    - ./scripts/deploy.sh
+# deploy-run:
+#   stage: deploy
+#   image: mosstech/ci-tools:latest
+#   rules:
+#   - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#   before_script:
+#   - echo "${RUN_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
+#   script:
+#     - ./scripts/deploy.sh
 
 
