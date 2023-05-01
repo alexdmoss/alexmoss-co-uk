@@ -12,6 +12,9 @@ spec:
       maxUnavailable: "50%"
   template:
     spec:
+      nodeSelector:
+        cloud.google.com/gke-spot: "true"
+      terminationGracePeriodSeconds: 25
       containers:
         - name: alexmoss-co-uk
           image: alexmoss-co-uk:SET_BY_CI
@@ -49,6 +52,7 @@ spec:
               memory: 50Mi
             limits:
               memory: 50Mi
+              cpu: 50m
       volumes:
         - name: cache-volume
           emptyDir: {}
