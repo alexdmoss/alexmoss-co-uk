@@ -48,29 +48,6 @@ function build() {
     hugo --source .
     popd >/dev/null
 
-    pushd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null
-
-
-    # docker pull "${IMAGE_NAME}":latest || true
-    # docker build --cache-from "${IMAGE_NAME}":latest --tag "${IMAGE_NAME}":latest .
-
-    # test "${IMAGE_NAME}":latest
-
-    if [[ ${CI_SERVER:-} == "yes" ]]; then
-      _console_msg "Baking docker image ..."
-      /kaniko/executor --context "${CI_PROJECT_DIR}" --dockerfile "${CI_PROJECT_DIR}/Dockerfile" --destination "${IMAGE_NAME}:${CI_COMMIT_SHA}"
-      # _console_msg "Pushing image to registry ..."
-      # docker tag "${IMAGE_NAME}":latest "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
-      # docker push "${IMAGE_NAME}":"${CI_COMMIT_SHA}"
-      # docker push "${IMAGE_NAME}":latest
-    else
-      docker pull "${IMAGE_NAME}":latest || true
-      docker build --cache-from "${IMAGE_NAME}":latest --tag "${IMAGE_NAME}":latest .
-      test "${IMAGE_NAME}":latest
-    fi
-
-    popd >/dev/null 
-    
     _console_msg "Build complete" INFO true 
 
 }
