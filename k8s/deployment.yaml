@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: alexmoss-co-uk
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -49,11 +49,11 @@ spec:
           # autopilot minimums
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 10m
+              memory: 50Mi
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 50m
+              memory: 50Mi
       volumes:
         - name: cache-volume
           emptyDir: {}
