@@ -46,7 +46,6 @@ spec:
           volumeMounts:
             - mountPath: /var/cache/nginx/data
               name: cache-volume
-          # autopilot minimums
           resources:
             requests:
               cpu: 10m
