@@ -45,7 +45,7 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           volumeMounts:
-            - mountPath: /var/cache/nginx/data
+            - mountPath: /var/cache/nginx
               name: cache-volume
           resources:
             requests:
