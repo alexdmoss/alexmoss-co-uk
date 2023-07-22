@@ -59,4 +59,4 @@ custom_css: ""
 
 Hi, I'm Alex Moss. :wave: I currently work as a Platform Engineering Lead for the John Lewis Partnership - a large retailer in the UK - having previously been their first Cloud Architect and led the move of [johnlewis.com](https://www.johnlewis.com) into the Cloud.
 
-Now I'm the Lead Engineer for two teams that work to evolve the developer experience for the many teams building on top of that bespoke cloud platform - and balancing that with the need to help teams achieve strong operability and enhance our security.
+Now I'm the Lead Engineer for two teams that work to evolve the developer experience for the many teams building on top of that bespoke Cloud Platform - and balancing that with the need to help teams achieve strong operability and enhance our security.
