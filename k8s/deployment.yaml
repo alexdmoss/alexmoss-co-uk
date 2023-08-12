@@ -4,12 +4,11 @@ kind: Deployment
 metadata:
   name: alexmoss-co-uk
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxSurge: "50%"
-      maxUnavailable: "50%"
   template:
     spec:
       nodeSelector:
@@ -55,7 +54,7 @@ spec:
           resources:
             requests:
               cpu: 10m
-              memory: 50Mi
+              memory: 10Mi
             limits:
               cpu: 50m
               memory: 50Mi
