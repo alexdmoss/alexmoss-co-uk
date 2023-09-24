@@ -10,6 +10,9 @@ spec:
     rollingUpdate:
       maxSurge: "50%"
   template:
+    metadata:
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
       nodeSelector:
         cloud.google.com/gke-spot: "true"
