@@ -6,14 +6,6 @@ It also serves as a way for me to experiment with some cloud-native technologies
 
 ---
 
-## Tech
-
-- [ ] Dashboard
-- [ ] Alerts
-- [ ] Availability checks
-
----
-
 ## Theme Edits
 
 The sections I wanted are different from what the theme ships with. You can control this by editing `themes/somrat/layouts/index.html` to control the filenames used etc.
