@@ -15,3 +15,11 @@ spec:
   - backendRefs:
     - name: alexmoss-co-uk
       port: 32080
+  - filters:
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          statusCode: 301
+      - type: URLRewrite
+        urlRewrite:
+          hostname: alexmoss.co.uk
