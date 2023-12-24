@@ -20,6 +20,3 @@ spec:
         requestRedirect:
           scheme: https
           statusCode: 301
-      - type: URLRewrite
-        urlRewrite:
-          hostname: alexmoss.co.uk
