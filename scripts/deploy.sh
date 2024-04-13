@@ -4,7 +4,7 @@ set -euoE pipefail
 pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
 gcloud run deploy "${SERVICE}" \
-  --image "eu.gcr.io/${PROJECT_ID}/${SERVICE}":"${CI_COMMIT_SHA}" \
+  --image "europe-docker.pkg.dev/${PROJECT_ID}/alexos/${SERVICE}":"${CI_COMMIT_SHA}" \
   --project "${PROJECT_ID}" \
   --platform managed \
   --region "${REGION}"  \

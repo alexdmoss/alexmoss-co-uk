@@ -24,7 +24,7 @@ popd >/dev/null
 
 pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
-image_name="eu.gcr.io/${PROJECT_ID}/${SERVICE}"
+image_name="europe-docker.pkg.dev/${PROJECT_ID}/alexos/${SERVICE}"
 
 docker pull "${image_name}":latest || true
 docker build --cache-from "${image_name}":latest --tag "${image_name}":latest .
