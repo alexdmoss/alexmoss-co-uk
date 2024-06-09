@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-IMAGE_TAG=${CONTAINER_IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
+IMAGE_TAG=${IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
 
 echo "Building image [${IMAGE_TAG}]"
 

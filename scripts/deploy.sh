@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euoE pipefail
 
-IMAGE_TAG=${CONTAINER_IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
+IMAGE_TAG=${IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
 
 pushd "$(dirname "${BASH_SOURCE[0]}")/../terraform/" >/dev/null
 
