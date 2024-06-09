@@ -38,7 +38,7 @@ publish:
   - mkdir -p /kaniko/.docker
   - echo "${GOOGLE_CREDENTIALS}" > ${CI_PROJECT_DIR}/kaniko.json
   script:
-    - .scripts/kaniko-build.sh
+    - .scripts/build.sh
   after_script:
   - rm -f ${CI_PROJECT_DIR}/kaniko.json 
 
