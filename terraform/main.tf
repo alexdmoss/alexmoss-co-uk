@@ -60,7 +60,7 @@ resource "google_cloud_run_domain_mapping" "apex-domain" {
     namespace = var.gcp_project_id
   }
   spec {
-    route_name = google_cloud_run_v2_service.default.name
+    route_name = google_cloud_run_v2_service.app.name
   }
 }
 
@@ -71,6 +71,6 @@ resource "google_cloud_run_domain_mapping" "www-domain" {
     namespace = var.gcp_project_id
   }
   spec {
-    route_name = google_cloud_run_v2_service.default.name
+    route_name = google_cloud_run_v2_service.app.name
   }
 }
