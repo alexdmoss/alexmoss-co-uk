@@ -9,8 +9,9 @@ variables:
   APP_NAME: alexmoss-co-uk
   REGION: europe-west1
   DOMAIN: alexmoss.co.uk
-
   PORT: "32080"
+  GOOGLE_CREDENTIALS: ${APP_CI_CREDENTIALS}
+
 
 build:
   stage: build
