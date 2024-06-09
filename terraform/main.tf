@@ -22,13 +22,13 @@ resource "google_cloud_run_v2_service" "app" {
         period_seconds        = 3
         failure_threshold     = 1
         http_get {
-          path = "/healthz"
+          path = "/health"
         }
       }
 
       liveness_probe {
         http_get {
-          path = "/healthz"
+          path = "/health"
         }
       }
 
