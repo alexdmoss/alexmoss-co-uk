@@ -6,7 +6,7 @@ stages:
 
 variables:
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss-co-uk
-  PROJECT_ID: ${MW_PROJECT_ID}
+  APP_NAME: alexmoss-co-uk
   SERVICE: alexmoss-co-uk
   DOMAIN: alexmoss.co.uk
   REGION: europe-west1
@@ -49,10 +49,8 @@ deploy:
   image: al3xos/ci-tools:latest
   before_script:
   - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
-  - region=$(gcloud container clusters list --project=${GCP_PROJECT_ID} --filter "NAME=${CLUSTER_NAME}" --format "value(zone)")
-  - gcloud container clusters get-credentials ${CLUSTER_NAME} --project=${GCP_PROJECT_ID} --region=${region}
   script:
-    - ./go deploy
+    - ./scripts/deploy.sh
 
 smoke:
   stage: smoke
