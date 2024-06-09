@@ -1,7 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: alexmoss-co-uk
-  labels:
-    istio-injection: enabled
