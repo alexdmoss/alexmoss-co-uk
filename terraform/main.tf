@@ -1,12 +1,47 @@
-resource "google_cloud_run_v2_service" "default" {
+data google_service_account "runtime" {
+  project = var.gcp_project_id
+  account_id = "run-${var.app_name}"
+}
+
+resource "google_cloud_run_v2_service" "app" {
   name     = var.app_name
   project  = var.gcp_project_id
-  location = "europe-west1"
+  location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {
     containers {
       image = var.image_tag
+
+      ports {
+        container_port = 32080
+      }
+      startup_probe {
+        initial_delay_seconds = 5
+        timeout_seconds = 1
+        period_seconds = 3
+        failure_threshold = 1
+        http_get {
+          path = "/healthz"
+        }
+      }
+
+      liveness_probe {
+        http_get {
+          path = "/healthz"
+        }
+      }
+
     }
+
+    timeout = "5s"
+
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 1
+    }
+
+    service_account = data.google_service_account.runtime.email
+
   }
 }
