@@ -9,6 +9,7 @@ terraform init -backend-config=bucket="${GCP_PROJECT_ID}"-apps-tfstate -backend-
 terraform apply -auto-approve -var gcp_project_id="${GCP_PROJECT_ID}" \
   -var app_name="${APP_NAME}" \
   -var image_tag="${IMAGE_TAG}" \
-  -var region="${REGION}"
+  -var region="${REGION}" \
+  -var domain="${DOMAIN}"
 
 popd >/dev/null
