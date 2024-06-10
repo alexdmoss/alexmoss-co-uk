@@ -14,7 +14,7 @@ resource "google_cloud_run_v2_service" "app" {
       image = var.image_tag
 
       ports {
-        container_port = 32080
+        container_port = var.port
       }
       startup_probe {
         initial_delay_seconds = 5
