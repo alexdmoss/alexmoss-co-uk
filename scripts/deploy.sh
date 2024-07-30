@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 set -euoE pipefail
 
-IMAGE_TAG=${IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
+pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
-pushd "$(dirname "${BASH_SOURCE[0]}")/../terraform/" >/dev/null
-
-terraform init -backend-config=bucket="${GCP_PROJECT_ID}"-apps-tfstate -backend-config=prefix="${APP_NAME}"
-terraform apply -auto-approve -var gcp_project_id="${GCP_PROJECT_ID}" \
-  -var app_name="${APP_NAME}" \
-  -var image_tag="${IMAGE_TAG}" \
-  -var region="${REGION}" \
-  -var domain="${DOMAIN}" \
-  -var port="${PORT}"
+gcloud run deploy "${SERVICE}" \
+  --image "europe-docker.pkg.dev/${PROJECT_ID}/alexos/${SERVICE}":"${CI_COMMIT_SHA}" \
+  --project "${PROJECT_ID}" \
+  --platform managed \
+  --region "${REGION}"  \
+  --service-account run-"${SERVICE}"@"${PROJECT_ID}".iam.gserviceaccount.com \
+  --port "${PORT}" \
+  --max-instances 1 \
+  --allow-unauthenticated
 
 popd >/dev/null

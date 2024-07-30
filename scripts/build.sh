@@ -1,20 +1,38 @@
-#!/bin/sh
-set -eu
+#!/usr/bin/env bash
+set -euoE pipefail
 
-IMAGE_TAG=${IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
+pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
-echo "Building image [${IMAGE_TAG}]"
 
-set -x
+if [[ ${CI_SERVER:-} == "yes" ]]; then
+  wget --no-verbose -O hugo.tar.gz https://github.com/gohugoio/hugo/releases/download/v0.90.1/hugo_extended_0.90.1_Linux-64bit.tar.gz && \
+  tar zxf hugo.tar.gz && \
+  mv ./hugo /usr/local/bin/ && \
+  rm hugo.tar.gz
+fi
 
-# we cannot wrap ECP_IMAGE_LABELS or it sets as one giant label
-#shellcheck disable=SC2086
-/kaniko/executor \
-    --context="dir://${CI_PROJECT_DIR}" \
-    --destination="${IMAGE_TAG}" \
-    --dockerfile="${CI_PROJECT_DIR}/Dockerfile" \
-    --label=alexos-dev.source.pipeline.url=${CI_PIPELINE_URL} \
-    --compressed-caching=false \
-    --cache=true \
-    --use-new-run \
-    --cleanup
+mkdir -p "www/"
+
+pushd "www/" > /dev/null
+rm -rf ./*
+popd >/dev/null
+
+pushd "src/" >/dev/null
+hugo --source .
+popd >/dev/null
+
+
+pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
+
+image_name="europe-docker.pkg.dev/${PROJECT_ID}/alexos/${SERVICE}"
+
+docker pull "${image_name}":latest || true
+docker build --cache-from "${image_name}":latest --tag "${image_name}":latest .
+
+if [[ ${CI_SERVER:-} == "yes" ]]; then
+  docker tag "${image_name}":latest "${image_name}":"${CI_COMMIT_SHA}"
+  docker push "${image_name}":"${CI_COMMIT_SHA}"
+  docker push "${image_name}":latest
+fi
+
+popd >/dev/null 
