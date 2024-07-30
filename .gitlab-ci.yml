@@ -5,13 +5,13 @@ stages:
   - smoke
 
 variables:
+  GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
   IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss-co-uk
   PROJECT_ID: ${MW_PROJECT_ID}
   SERVICE: alexmoss-co-uk
   DOMAIN: alexmoss.co.uk
   REGION: europe-west1
   PORT: "32080"
-
 build:
   stage: build
   only:
