@@ -6,6 +6,7 @@ stages:
 
 variables:
   GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
+  DOMAIN: alexmoss.co.uk
 
 include:
   - component: gitlab.com/alexos-dev/gitlab-ci-components/kaniko@~latest
