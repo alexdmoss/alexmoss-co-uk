@@ -26,11 +26,6 @@ include:
 render:
   stage: render
   image: al3xos/ci-tools:latest
-  before_script:
-    - wget --no-verbose -O hugo.tar.gz https://github.com/gohugoio/hugo/releases/download/v0.90.1/hugo_extended_0.90.1_Linux-64bit.tar.gz && \
-        tar zxf hugo.tar.gz && \
-        mv ./hugo /usr/local/bin/ && \
-        rm hugo.tar.gz
   script:
     - ./scripts/render.sh
   artifacts:
