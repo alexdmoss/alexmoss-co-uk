@@ -2,7 +2,7 @@
 kind: HTTPRoute
 apiVersion: gateway.networking.k8s.io/v1beta1
 metadata:
-  name: alexmoss-co-uk
+  name: alexmoss
 spec:
   parentRefs:
   - kind: Gateway
@@ -13,7 +13,7 @@ spec:
   - www.alexmoss.co.uk
   rules:
   - backendRefs:
-    - name: alexmoss-co-uk
+    - name: alexmoss
       port: 32080
   - filters:
       - type: RequestRedirect

@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: alexmoss-co-uk
+  name: alexmoss
 spec:
   replicas: 1
   strategy:
@@ -14,12 +14,13 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
+      serviceAccountName: alexmoss
       nodeSelector:
         cloud.google.com/gke-spot: "true"
       terminationGracePeriodSeconds: 25
       containers:
-        - name: alexmoss-co-uk
-          image: alexmoss-co-uk:SET_BY_CI
+        - name: alexmoss
+          image: alexmoss:SET_BY_CI
           ports:
             - name: http
               containerPort: 32080
