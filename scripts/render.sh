@@ -3,7 +3,7 @@ set -euoE pipefail
 
 echo "-> [INFO] Building site ..."
 
-pushd "$(dirname "${BASH_SOURCE[0]}/../")" >/dev/null
+pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
 mkdir -p "www/"
 
