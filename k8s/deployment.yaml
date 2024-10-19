@@ -60,7 +60,6 @@ spec:
               cpu: 10m
               memory: 10Mi
             limits:
-              cpu: 50m
               memory: 50Mi
       volumes:
         - name: cache-volume
