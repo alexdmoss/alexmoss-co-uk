@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: alexmoss
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 32080
       name: http
@@ -14,7 +14,7 @@ kind: Service
 metadata:
   name: alexmoss-metrics
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: alexmoss
   ports:
