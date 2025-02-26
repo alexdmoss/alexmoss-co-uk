@@ -1,3 +1,3 @@
-FROM al3xos/nginx-with-prometheus:1.8
-COPY config/default.conf config/redirects.include /etc/nginx/conf.d/
-COPY www/ /app/
+FROM al3xos/distroless-caddy:2.9.1
+COPY Caddyfile /etc/caddy/Caddyfile
+COPY www/ ./app

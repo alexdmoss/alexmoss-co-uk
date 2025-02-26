@@ -1,0 +1,51 @@
+{
+	grace_period 10s
+	admin :9146 # prometheus metrics on this port (/metrics)
+	metrics on
+	auto_https off # this image is intended for use within a platform where certificates are handled for you
+	persist_config off # the container should be immutable
+	storage file_system {
+		root /data/caddy # simplifies mounting of temporary storage
+	}
+	servers {
+		timeouts {
+			read_body 10s
+			read_header 5s
+			write 30s
+			idle 10m
+		}
+	}
+}
+
+:8080 {
+	respond /health "OK"
+	root * app/ # copy your content into here
+	encode zstd gzip
+	file_server
+
+	log {
+		output stdout
+		format json
+	}
+
+	# future enhancement: all error types
+	handle_errors 404 {
+		rewrite * /404.html
+		file_server
+	}
+
+	@plausible path /js/script.js /api/event
+	handle @plausible {
+		rewrite /js/script.js /js/plausible.outbound-links.js
+		reverse_proxy https://plausible.alexos.dev {
+			header_up Host {http.reverse_proxy.upstream.hostport}
+		}
+	}
+
+	redir /contact* /#contact 301
+	redir /about* / 301
+	redir /bio* / 301
+	redir /gallery* / 301
+	redir /books* / 301
+	redir /index.php* / 301
+}

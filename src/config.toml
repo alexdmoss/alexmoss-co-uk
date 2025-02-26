@@ -1,13 +1,11 @@
 ################ default config ################
 
-baseURL = "https://alexmoss.co.uk"
 title = "alexmoss.co.uk | Alex Moss"
 theme = "somrat"
 publishDir = "../www"
 
 contentDir = "../content"
 
-paginate = "6"
 summaryLength = "10"
 disableLanguages = []
 

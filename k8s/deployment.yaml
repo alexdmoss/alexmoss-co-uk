@@ -23,19 +23,19 @@ spec:
           image: alexmoss:SET_BY_CI
           ports:
             - name: http
-              containerPort: 32080
+              containerPort: 8080
             - name: metrics
-              containerPort: 9145
+              containerPort: 9146
           readinessProbe:
             httpGet:
-              path: /healthz
+              path: /health
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 1
           livenessProbe:
             httpGet:
-              path: /healthz
+              path: /health
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5
@@ -43,18 +43,16 @@ spec:
           workingDir: /app
           securityContext:
             runAsNonRoot: true
-            runAsUser: 101
-            runAsGroup: 101
+            runAsUser: 65532
+            runAsGroup: 65532
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
             capabilities:
               drop:
               - ALL
           volumeMounts:
-            - mountPath: /var/cache/nginx
+            - mountPath: /data/caddy
               name: cache-volume
-            - mountPath: /var/run/nginx
-              name: pid-volume
           resources:
             requests:
               cpu: 10m
@@ -63,7 +61,5 @@ spec:
               memory: 50Mi
       volumes:
         - name: cache-volume
-          emptyDir: {}
-        - name: pid-volume
           emptyDir: {}
       restartPolicy: Always

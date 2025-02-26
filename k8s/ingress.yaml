@@ -14,7 +14,7 @@ spec:
   rules:
   - backendRefs:
     - name: alexmoss
-      port: 32080
+      port: 8080
   - filters:
       - type: RequestRedirect
         requestRedirect:
