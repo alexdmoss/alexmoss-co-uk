@@ -1,8 +1,9 @@
 {
+	http_port 8080
 	grace_period 10s
 	admin :9146 # prometheus metrics on this port (/metrics)
 	metrics on
-	auto_https off # this image is intended for use within a platform where certificates are handled for you
+	auto_https disable_redirects # this image is intended for use within a platform where certificates are handled for you
 	persist_config off # the container should be immutable
 	storage file_system {
 		root /data/caddy # simplifies mounting of temporary storage
@@ -17,9 +18,9 @@
 	}
 }
 
-:8080 {
+http:// {
 	respond /health "OK"
-	root * app/ # copy your content into here
+	root * /app/ # copy your content into here
 	encode zstd gzip
 	file_server
 
