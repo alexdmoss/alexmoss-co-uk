@@ -40,7 +40,6 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 1
-          workingDir: /app
           securityContext:
             runAsNonRoot: true
             runAsUser: 65532
