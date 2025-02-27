@@ -9,7 +9,7 @@
 *.swp
 
 **/public/**
-**/www/**
+**/app/**
 
 src/.hugo_build.lock
 src/resources/_gen/**

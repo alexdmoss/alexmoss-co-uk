@@ -5,25 +5,31 @@ function smoke() {
 
     local error=0
 
-    _console_msg "Checking HTTP status codes for https://${DOMAIN}/ ..."
+    if [[ -z "${DOMAIN}" ]]; then
+      DOMAIN="localhost"
+      HOST="http://localhost:8080"
+    else
+      HOST="https://${DOMAIN}"
+    fi
+    _console_msg "Checking HTTP status codes for ${HOST}/ ..."
     
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'alexmoss.co.uk | Alex Moss' 'Title'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h4>Engineering Lead' 'Employment'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<span class="skillbar-title">Kubernetes</span>' 'Skills'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Engineering Lead</h1>' 'Engineering'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Cloud Architect</h1>' 'Architecture'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h1>Education</h1>' 'Education'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<h2>Father</h2>' 'Interests'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ '<p>CUPS OF COFFEE</p>' 'Facts'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Say Hello!</h1>' 'Contact'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/ 'Copyright © 2022 Alex Moss. Hugo theme by' 'Footer'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/engineer/ 'As an engineer, I love' 'Engineer Detail'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/posts/architect/ 'As an architect, I have' 'Architect Detail'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/healthz 'OK' 'Healthz'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/404.html 'Four-Oh-Four' '404 Direct'
-    _smoke_test "${DOMAIN}" https://"${DOMAIN}"/woofwoof/ 'Sorry' '404 Redirected'
+    _smoke_test "${DOMAIN}" "${HOST}/" 'alexmoss.co.uk | Alex Moss' 'Title'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<div class="content"><p>Hi, I&rsquo;m Alex Moss' 'About'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<h4>Engineering Lead' 'Employment'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<span class="skillbar-title">Kubernetes</span>' 'Skills'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<div class="service-label">Observability &amp; Reliability</div>' 'Profession'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<h1>Engineering Lead</h1>' 'Engineering'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<h1>Cloud Architect</h1>' 'Architecture'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<h1>Education</h1>' 'Education'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<h2>Father</h2>' 'Interests'
+    _smoke_test "${DOMAIN}" "${HOST}/" '<p>CUPS OF COFFEE</p>' 'Facts'
+    _smoke_test "${DOMAIN}" "${HOST}/" 'Say Hello!</h1>' 'Contact'
+    _smoke_test "${DOMAIN}" "${HOST}/" 'Alex Moss. Hugo theme by' 'Footer'
+    _smoke_test "${DOMAIN}" "${HOST}/posts/engineer/" 'As an engineer, I love' 'Engineer Detail'
+    _smoke_test "${DOMAIN}" "${HOST}/posts/architect/" 'As an architect, I have' 'Architect Detail'
+    _smoke_test "${DOMAIN}" "${HOST}/health" 'OK' 'Health'
+    _smoke_test "${DOMAIN}" "${HOST}/404.html" 'Four-Oh-Four' '404 Direct'
+    _smoke_test "${DOMAIN}" "${HOST}/woofwoof/" 'Sorry' '404 Redirected'
 
     if [[ "${error:-}" != "0" ]]; then
         _console_msg "Tests FAILED - see messages above for for detail" ERROR

@@ -20,7 +20,7 @@
 
 http:// {
 	respond /health "OK"
-	root * /app/ # copy your content into here
+	root * app/ # copy your content into here
 	encode zstd gzip
 	file_server
 

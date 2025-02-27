@@ -2,7 +2,7 @@
 
 title = "alexmoss.co.uk | Alex Moss"
 theme = "somrat"
-publishDir = "../www"
+publishDir = "../app/"
 
 contentDir = "../content"
 
@@ -60,6 +60,7 @@ logo_dark = "images/logo-dark.png"
 logo_width = "150px"
 description = "Website describing the career of Alex Moss - Platform Engineering Lead and former Cloud Architect for https://www.johnlewis.com"
 author = "Alex Moss"
+copyright = "Copyright &copy; 2022 Alex Moss. Hugo theme by [somrat](https://somrat.netlify.com). Icons from [Tilda](https://tilda.cc/)."
 
 [params.preloader]
 enable = true
@@ -95,8 +96,6 @@ languageCode = "en-gb"
 
 weight = 1
 home = "Home"
-# copyright
-copyright = "Copyright &copy; 2022 Alex Moss. Hugo theme by [somrat](https://somrat.netlify.com). Icons from [Tilda](https://tilda.cc/)."
 
 ################ navigation ################
 

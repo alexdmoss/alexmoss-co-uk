@@ -5,9 +5,9 @@ echo "-> [INFO] Building site ..."
 
 pushd "$(dirname "${BASH_SOURCE[0]}")/../" >/dev/null
 
-mkdir -p "www/"
+mkdir -p "app/"
 
-pushd "www/" > /dev/null
+pushd "app/" > /dev/null
 rm -rf ./*
 popd >/dev/null 
 
