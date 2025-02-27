@@ -31,7 +31,7 @@ render:
     - ./scripts/render.sh
   artifacts:
     paths:
-      - www/
+      - app/
     when: on_success
     expire_in: "1 day"
 
