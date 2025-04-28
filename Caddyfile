@@ -28,6 +28,7 @@ http:// {
 		output stdout
 		format json
 	}
+	log_skip /health*
 
 	# future enhancement: all error types
 	handle_errors 404 {
