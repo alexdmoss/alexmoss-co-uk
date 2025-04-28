@@ -29,6 +29,8 @@ http:// {
 		format json
 	}
 	log_skip /health*
+	@googlehc {header.User-Agent}.contains("GoogleHC")
+	log_skip @googlehc
 
 	# future enhancement: all error types
 	handle_errors 404 {
