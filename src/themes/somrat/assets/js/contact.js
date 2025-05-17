@@ -14,7 +14,7 @@ jQuery(document).ready(function (e) {
                     crossDomain: true,
                     url: 'https://contact.alexos.dev/api/email/alexmoss.co.uk',
                     headers: {
-                        'API-Key': 'ec9349.86220fb9055348fb4ac8dfb4f1a0adc7',
+                        'API-Key': 'ec9349.86220fb9055348fb4ac8dfb4f1a0adc7',   // gitleaks:allow
                     },
                     data: $form.serialize(),
                     beforeSend: function (xhr, opts) {
