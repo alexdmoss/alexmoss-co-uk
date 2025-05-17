@@ -58,6 +58,7 @@ spec:
               memory: 10Mi
             limits:
               memory: 50Mi
+          imagePullPolicy: Always
       volumes:
         - name: cache-volume
           emptyDir: {}
