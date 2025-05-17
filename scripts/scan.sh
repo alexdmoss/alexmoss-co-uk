@@ -18,7 +18,6 @@ rc=$?
 if [[ $rc -ne 0 ]]; then
   errors=$((errors + 1))
   echo "-> [ERROR] Gitleaks found secrets in the codebase. Check ./gitleaks.json for details."
-  exit $rc
 fi
 
 echo "-------------------------------------------------------------------------------"
@@ -28,7 +27,6 @@ rc=$?
 if [[ $rc -ne 0 ]]; then
   errors=$((errors + 1))
   echo "-> [ERROR] Snyk Code Scan found issues. Check ./snyk-code.json for details."
-  exit $rc
 fi
 
 
@@ -40,7 +38,6 @@ if [[ -n "${SNYK_LANGUAGE:-}" ]]; then
   if [[ $rc -ne 0 ]]; then
     errors=$((errors + 1))
     echo "-> [ERROR] Snyk Library Scan found issues. Check ./snyk-library.json for details."
-    exit $rc
   fi
 fi
 
@@ -51,7 +48,6 @@ rc=$?
 if [[ $rc -ne 0 ]]; then
   errors=$((errors + 1))
   echo "-> [ERROR] Snyk Container Scan found issues. Check ./snyk-container.json for details."
-  exit $rc
 fi
 
 echo "-------------------------------------------------------------------------------"
@@ -61,14 +57,13 @@ rc=$?
 if [[ $rc -ne 0 ]]; then
   errors=$((errors + 1))
   echo "-> [ERROR] Snyk IaC Scan found issues. Check ./snyk-iac.json for details."
-  exit $rc
 fi
 
 if [[ $errors -ne 0 ]]; then
   echo "==============================================================================="
-  echo "-> [ERROR] One or more scans failed. Please check the logs above."
+  echo "-> [ERROR] ${errors} scans failed. Please check the logs above."
   echo "==============================================================================="
-  exit 1
+  exit $errors
 fi
 
 popd >/dev/null || exit 1
