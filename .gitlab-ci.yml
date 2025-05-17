@@ -44,9 +44,14 @@ security-scan:
   variables:
     GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
     IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+  services:
+  - docker:dind
   before_script:
+    - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; done
     - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
-    - gcloud auth configure-docker europe-docker.pkg.dev
+    - gcloud auth configure-docker europe-docker.pkg.dev --quiet
   script:
     - ./scripts/scan.sh
   allow_failure: true
