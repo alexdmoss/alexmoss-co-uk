@@ -16,6 +16,11 @@ include:
       job-needs: ["render"]
       image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
       dockerfile: Dockerfile
+  - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
+    inputs:
+      job-stage: scan
+      job-needs: ["kaniko-build-app"]
+      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
   - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
     inputs:
       job-stage: deploy
@@ -34,33 +39,6 @@ render:
     paths:
       - app/
     when: on_success
-    expire_in: "1 day"
-
-security-scan:
-  stage: scan
-  image: al3xos/ci-tools:latest
-  needs:
-    - kaniko-build-app
-  variables:
-    GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
-    IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-  services:
-  - docker:dind
-  before_script:
-    - until docker info >/dev/null; do sleep 1; echo "Waiting for docker startup"; done
-    - echo "${GOOGLE_CREDENTIALS}" | gcloud auth activate-service-account --key-file -
-    - gcloud auth configure-docker europe-docker.pkg.dev --quiet
-  script:
-    - ./scripts/scan.sh
-  allow_failure: true
-  artifacts:
-    when: on_failure
-    paths:
-      - gitleaks.json
-      - snyk*.json
-    access: developer
     expire_in: "1 day"
 
 smoke:
