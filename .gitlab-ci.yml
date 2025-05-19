@@ -20,7 +20,7 @@ include:
     inputs:
       job-stage: scan
       job-needs: ["kaniko-build-app"]
-      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
+      image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
   - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
     inputs:
       job-stage: deploy
