@@ -127,10 +127,11 @@
 	});
 	// Setting Up Background Images
 	function SliderBackground() {
+    let img;
 		if ($(".owl-full-width .slider").length) {
 			$(".owl-full-width .slider").each(function () {
 				let $this = $(this);
-				let img = $this.children(img);
+				img = $this.children(img);
 				let imgSrc = img.attr("src");
 				$this.css({
 					backgroundImage: "url(" + imgSrc + ")",
@@ -328,11 +329,7 @@
 			Others
 	----------------------------------*/
 	// Code for Internet Explorer
-	if (
-		/* Check for IE using userAgent string and Trident/rv:11 */
-		(/MSIE|Trident\/|rv:11/).test(navigator.userAgent) ||
-		(typeof $.browser !== "undefined" && $.browser.msie == 1)
-	) {
+	if (!!((/Trident/).exec(navigator.userAgent) || (/rv:11/).exec(navigator.userAgent)) || (typeof $.browser !== "undefined" && $.browser.msie == 1)) {
 		$(".header, .fullscreen-nav-container, .like-me, .contact").css("background-attachment", "scroll");
 		$(".fullscreen-nav-holder").css("width", "100vw");
 	}
