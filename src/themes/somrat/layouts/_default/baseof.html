@@ -1,6 +1,66 @@
 <!DOCTYPE html>
 <html lang="{{ with site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
-{{- partial "head.html" . -}}
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ .Title }}</title>
+
+  <!-- mobile responsive meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description"
+    content="{{ with .Params.Description }}{{ . }}{{ else }}{{ with site.Params.description }}{{ . }}{{ end }}{{ end }}">
+  {{ with site.Params.author }}
+  <meta name="author" content="{{ . }}">{{ end }}
+  {{ hugo.Generator }}
+
+  <link rel=“canonical” href="/" />
+
+  <!-- plugins -->
+  {{ range site.Params.plugins.css }}
+  <link rel="stylesheet" href="{{ .link | absURL }}">
+  {{ end }}
+
+  <!-- Main Stylesheet -->
+  {{ $styles := resources.Get "css/style.css" | minify }}
+  <link rel="stylesheet" href="{{ $styles.Permalink }}" media="screen">
+
+  <!-- Custom stylesheet -->
+  {{ $custom := resources.Get "css/custom.css" | minify }}
+  <link rel="stylesheet" href="{{ $custom.Permalink }}" media="screen">
+
+  <!-- Font Awesome stylesheet -->
+  {{ $font_awesome := resources.Get "css/font-awesome.all.min.css" }}
+  <link rel="stylesheet" href="{{ $font_awesome.Permalink }}" media="screen">
+  
+  <!-- Fonts stylesheet -->
+  {{ $fonts := resources.Get "css/fonts.css" | minify }}
+  <link rel="stylesheet" href="{{ $fonts.Permalink }}" media="screen">
+
+  <!--Favicon-->
+  <link rel="shortcut icon" href="{{ site.Params.favicon | absURL }}" type="image/x-icon">
+  <link rel="icon" href="{{ site.Params.favicon | absURL }}" type="image/x-icon">
+
+  <!-- multilingual SEO optimizations -->
+  {{ if .IsTranslated }}
+  {{ range .Page.AllTranslations }}
+  <link rel="alternate" hreflang="{{ .Lang }}" href="{{ .Permalink }}">
+  {{ end }}
+  {{ end }}
+
+  {{ with .Params.image }}
+  <meta property="og:image" content="{{ . | absURL }}" />
+  {{ end }}
+  {{ template "_internal/opengraph.html" . }}
+
+  {{ $visits := resources.Get "js/visits.js" | minify}}
+  <script defer data-api="/api/event" data-domain="alexmoss.co.uk" src="{{ $visits.Permalink }}"></script>
+
+  <script>
+    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
+  </script>
+
+</head>
+
 
 <body>
 	{{- partialCached "preloader.html" . -}}

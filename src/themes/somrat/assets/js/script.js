@@ -16,13 +16,13 @@
 	//  Count Up
 	// -----------------------------
 	function counter() {
-		var oTop;
+		let oTop;
 		if ($('.count').length !== 0) {
 			oTop = $('.count').offset().top - window.innerHeight;
 		}
 		if ($(window).scrollTop() > oTop) {
 			$('.count').each(function () {
-				var $this = $(this),
+				let $this = $(this),
 					countTo = $this.attr('data-count');
 				$({
 					countNum: $this.text()
@@ -66,7 +66,7 @@
 					location.hostname == this.hostname
 				) {
 					// Figure out element to scroll to
-					var target = $(this.hash);
+					let target = $(this.hash);
 					target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
 					// Does a scroll target exist?
 					if (target.length) {
@@ -77,7 +77,7 @@
 						}, 1000, "easeInOutExpo", function () {
 							// Callback after animation
 							// Must change focus!
-							var $target = $(target);
+							let $target = $(target);
 							$target.focus();
 							if ($target.is(":focus")) { // Checking if the target was focused
 								return false;
@@ -110,7 +110,7 @@
 	 Start Header
 		----------------------------------*/
 	// Initiating Background Slider
-	var backgroundSlide = $('#background-slide');
+	let backgroundSlide = $('#background-slide');
 	backgroundSlide.owlCarousel({
 		loop: true,
 		items: 1,
@@ -129,9 +129,9 @@
 	function SliderBackground() {
 		if ($(".owl-full-width .slider").length) {
 			$(".owl-full-width .slider").each(function () {
-				var $this = $(this);
-				var img = $this.children(img);
-				var imgSrc = img.attr("src");
+				let $this = $(this);
+				let img = $this.children(img);
+				let imgSrc = img.attr("src");
 				$this.css({
 					backgroundImage: "url(" + imgSrc + ")",
 					backgroundSize: "cover",
@@ -160,7 +160,7 @@
 	$(window).on('scroll', function () {
 		$('section').each(function () {
 			if ($(window).scrollTop() + 50 >= $(this).offset().top) {
-				var id = $(this).attr('id');
+				let id = $(this).attr('id');
 				$('.menu-item').removeClass('active');
 				$(".menu-item." + id).addClass("active");
 				$(".mobile-menu-item").removeClass("active");
@@ -181,7 +181,7 @@
 			// Toggling Mobile Menu Visibility
 			$(".mobile-menu").toggleClass("mobile-menu-fix");
 			// Auto-Collapsing Mobile Menu When Left Open
-			var a = $(".menu-link").attr("class");
+			let a = $(".menu-link").attr("class");
 			if (direction == "up" && a == "menu-link active") {
 				$(".menu-link").trigger("click");
 			}
@@ -224,17 +224,17 @@
 	/*--------------------------------
 			 Start Portfolio
 	----------------------------------*/
-	// Shuffle js filter 
-	var containerEl = document.querySelector('.filtr-wrapper');
+	// Shuffle js filter
+	let containerEl = document.querySelector('.filtr-wrapper');
 	if (containerEl) {
-		var Shuffle = window.Shuffle;
-		var myShuffle = new Shuffle(document.querySelector('.filtr-wrapper'), {
+		let Shuffle = window.Shuffle;
+		let myShuffle = new Shuffle(document.querySelector('.filtr-wrapper'), {
 			itemSelector: '.filtr-item',
 			buffer: 1
 		});
 
 		jQuery('input[name="shuffle-filter"]').on('change', function (evt) {
-			var input = evt.currentTarget;
+			let input = evt.currentTarget;
 			if (input.checked) {
 				myShuffle.filter(input.value);
 			}
@@ -277,9 +277,8 @@
 			Start Code for Mobile Devices
 	----------------------------------*/
 	// Code for Opera Mini
-	var vh = $(window).height();
 	if (navigator.userAgent.indexOf('Opera Mini') != -1) {
-		// Setting Fun Facts Value Immediately 
+		// Setting Fun Facts Value Immediately
 		work.start();
 		happyClient.start();
 		projects.start();
@@ -309,7 +308,7 @@
 			"display": "table",
 			"margin": "auto"
 		});
-		// Setting Fun Facts Value Immediately 
+		// Setting Fun Facts Value Immediately
 		work.start();
 		happyClient.start();
 		projects.start();
@@ -329,13 +328,17 @@
 			Others
 	----------------------------------*/
 	// Code for Internet Explorer
-	if (navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || (typeof $.browser !== "undefined" && $.browser.msie == 1)) {
+	if (
+		/* Check for IE using userAgent string and Trident/rv:11 */
+		(/MSIE|Trident\/|rv:11/).test(navigator.userAgent) ||
+		(typeof $.browser !== "undefined" && $.browser.msie == 1)
+	) {
 		$(".header, .fullscreen-nav-container, .like-me, .contact").css("background-attachment", "scroll");
 		$(".fullscreen-nav-holder").css("width", "100vw");
 	}
 
 	// Wow Plugin Initialization
-	var wow = new WOW({
+	let wow = new WOW({
 		animateClass: 'animated',
 		offset: 70,
 		mobile: false

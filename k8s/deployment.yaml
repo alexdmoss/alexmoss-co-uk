@@ -15,6 +15,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
       serviceAccountName: alexmoss
+      automountServiceAccountToken: false
       nodeSelector:
         cloud.google.com/gke-spot: "true"
       terminationGracePeriodSeconds: 25
@@ -56,8 +57,10 @@ spec:
             requests:
               cpu: 10m
               memory: 10Mi
+              ephemeral-storage: 50Mi
             limits:
               memory: 50Mi
+              ephemeral-storage: 50Mi
           imagePullPolicy: Always
       volumes:
         - name: cache-volume

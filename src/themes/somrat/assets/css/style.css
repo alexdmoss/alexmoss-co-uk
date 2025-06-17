@@ -1,5 +1,5 @@
 /*--------------------------------
-   Start Preloader & General Styling
+Start Preloader & General Styling
 ----------------------------------*/
 
 html {
@@ -137,7 +137,7 @@ body {
 .scroll-up.hvr-icon-up:before {
   content: "\f077";
   font-size: 15px;
-  font-family: 'Font Awesome 5 Free';
+  font-family: 'Font Awesome 5 Free', sans-serif;
   font-weight: 900;
   height: 30px;
   width: 30px;
@@ -657,9 +657,6 @@ input:checked+label span:last-child {
 
 .desktop-menu .hvr-underline-from-left:before {
   background: #fff;
-}
-
-.desktop-menu .hvr-underline-from-left:before {
   bottom: 11px;
   height: 2.5px;
 }
@@ -913,7 +910,7 @@ input:checked+label span:last-child {
 .about-me .hvr-icon-hang:before {
   content: "\f0ab";
   position: absolute;
-  font-family: 'Font Awesome 5 Free';
+  font-family: 'Font Awesome 5 Free', sans-serif;
   right: 8px;
   font-weight: 900;
   top: 6px;
@@ -1290,16 +1287,13 @@ ul.experience-chart h4 {
   background-color: #6f6f6f !important;
   border-color: #6f6f6f !important;
 }
+
 .portfolio .hvr-sweep-to-right.active:before {
   background: #212121;
 }
 
 .portfolio .hvr-sweep-to-right:before {
   background: #6f6f6f;
-}
-
-.portfolio .hvr-sweep-to-right.active:before {
-  background: transparent;
 }
 
 .filtr-item img {
@@ -1635,7 +1629,7 @@ textarea.form-control::-webkit-input-placeholder,
 .hvr-icon-push:before {
   content: "\f1d8";
   right: 19px;
-  font-family: 'Font Awesome 5 Free';
+  font-family: 'Font Awesome 5 Free', sans-serif;
   font-weight: 900;
 }
 
@@ -1847,9 +1841,9 @@ textarea.form-control::-webkit-input-placeholder,
 
   .fullscreen-nav-holder div {
     margin-bottom: 15px;
-    margin: 0;
-    margin-bottom: 15px;
-    width: 100%;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
     text-align: left;
   }
 
@@ -1876,8 +1870,9 @@ textarea.form-control::-webkit-input-placeholder,
 @media (max-width: 469px) and (min-height: 536px) {
   .fullscreen-nav-holder div {
     margin-bottom: 15px;
-    margin: 0;
-    margin-bottom: 15px;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
     width: 100%;
     text-align: center;
   }
@@ -2282,34 +2277,34 @@ textarea.form-control::-webkit-input-placeholder,
 
 /* blog */
 
-.card{
+.card {
   border: 0;
   border-radius: 0;
 }
 
-.card-img-top{
+.card-img-top {
   border-radius: 0;
   transition: .2s ease;
 }
 
-.card-body{
+.card-body {
   padding: 15px 0;
 }
 
-.card-title{
+.card-title {
   color: #6f6f6f;
 }
 
-.card-title:hover{
+.card-title:hover {
   color: #6f6f6f;
 }
 
-.card-img-wrapper{
+.card-img-wrapper {
   overflow: hidden;
   display: block;
 }
 
-.card:hover .card-img-top{
+.card:hover .card-img-top {
   transform: scale(1.2);
 }
 
@@ -2344,9 +2339,9 @@ textarea.form-control::-webkit-input-placeholder,
 }
 
 .pagination .page-item.active .page-link {
-    background: #4d4d4d;
-    color: #fff;
-    border-color: #4d4d4d;
+  background: #4d4d4d;
+  color: #fff;
+  border-color: #4d4d4d;
 }
 
 /* tags */
@@ -2356,18 +2351,18 @@ textarea.form-control::-webkit-input-placeholder,
 
 /* widget */
 
-.widget{
+.widget {
   margin-bottom: 20px;
 }
 
-.widget-list a{
+.widget-list a {
   font-size: 18px;
   padding: 4px 0;
   display: block;
   color: #6f6f6f;
 }
 
-.widget-img{
+.widget-img {
   height: 70px;
   width: 85px;
   object-fit: cover;

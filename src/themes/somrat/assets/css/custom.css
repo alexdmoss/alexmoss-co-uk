@@ -20,7 +20,7 @@
 .architect .hvr-icon-wobble-horizontal:before {
     content: "\f0a9";
     position: absolute;
-    font-family: 'Font Awesome 5 Free';
+    font-family: 'Font Awesome 5 Free', sans-serif;
     right: 8px;
     font-weight: 900;
     top: 6px;

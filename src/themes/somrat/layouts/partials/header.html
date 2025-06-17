@@ -2,7 +2,7 @@
       Start Menu
     =============================== -->
 <section class="menu menu-fix" id="home">
-  <nav>
+  <nav aria-label="Main Menu">
     <!-- desktop-menu -->
     <div class="menu-container menu-normal">
       <ul class="desktop-menu list-inline mb-0 justify-content-end" id="desktop-menu">
@@ -54,7 +54,7 @@
               src="{{ site.Params.logo_dark | absURL }}" alt="{{ site.Title }}"></a>
         </div>
         <div class="menu-slider">
-          <nav>
+          <nav aria-label="Mobile Menu">
             <ul class="mobile-menu-list">
               {{ range site.Menus.main }}
               <li class="hvr-shutter-out-vertical mobile-menu-item 1"><a href="{{if .Pre}}{{site.BaseURL | absLangURL}}{{.Pre}}{{ .URL }}{{else}}{{.URL | absLangURL}}{{end}}">{{ .Name }}</a></li>
