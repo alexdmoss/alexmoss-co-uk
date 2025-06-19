@@ -40,8 +40,8 @@ http:// {
 
 	@plausible path /js/script.js /api/event
 	handle @plausible {
-		rewrite /js/script.js /js/plausible.outbound-links.js
-		reverse_proxy https://plausible.alexos.dev {
+		rewrite /js/script.js /js/script.file-downloads.hash.outbound-links.pageview-props.tagged-events.js
+		reverse_proxy https://visits.alexos.dev {
 			header_up Host {http.reverse_proxy.upstream.hostport}
 		}
 	}
