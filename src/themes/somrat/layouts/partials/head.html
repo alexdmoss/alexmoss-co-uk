@@ -49,9 +49,6 @@
   {{ end }}
   {{ template "_internal/opengraph.html" . }}
 
-  {{ $visits := resources.Get "js/visits.js" | minify}}
-  <script defer data-api="/api/event" data-domain="alexmoss.co.uk" src="{{ $visits.Permalink }}"></script>
-
-  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  <script defer src="https://visits.alexos.dev/alexos" data-website-id="eaba34cc-cdf7-4ab0-8a6c-38ce1098cf59"></script>
 
 </head>

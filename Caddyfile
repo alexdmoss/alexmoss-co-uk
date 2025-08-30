@@ -38,14 +38,6 @@ http:// {
 		file_server
 	}
 
-	@plausible path /js/script.js /api/event
-	handle @plausible {
-		rewrite /js/script.js /js/script.file-downloads.hash.outbound-links.pageview-props.tagged-events.js
-		reverse_proxy https://visits.alexos.dev {
-			header_up Host {http.reverse_proxy.upstream.hostport}
-		}
-	}
-
 	redir /contact* /#contact 301
 	redir /about* / 301
 	redir /bio* / 301
