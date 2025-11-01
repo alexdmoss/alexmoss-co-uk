@@ -6,16 +6,15 @@ stages:
   - smoke
 
 variables:
-  GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
   DOMAIN: alexmoss.co.uk
 
 include:
-  # - component: gitlab.com/alexos-dev/gitlab-ci-components/buildkit@~latest
-  #   inputs:
-  #     job-stage: build
-  #     job-needs: ["render"]
-  #     image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-  #     dockerfile: Dockerfile
+  - component: gitlab.com/alexos-dev/gitlab-ci-components/buildkit@~latest
+    inputs:
+      job-stage: build
+      job-needs: ["render"]
+      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
+      dockerfile: Dockerfile
   - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
     inputs:
       job-stage: scan
@@ -29,45 +28,6 @@ include:
       namespace: alexmoss
       image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
       manifest-dir: k8s
-
-buildkit-build-app:
-  stage: build
-  image:
-    name: moby/buildkit:rootless
-    entrypoint: [""]
-  needs:
-  - render
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-  variables:
-    # BUILDKITD_FLAGS: --oci-worker-no-process-sandbox
-    GOOGLE_CREDENTIALS: "${APP_CI_CREDENTIALS}"
-    GOOGLE_APPLICATION_CREDENTIALS: ${CI_PROJECT_DIR}/docker.json
-    IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-    DOCKERFILE: Dockerfile
-  before_script:
-  - |
-    mkdir -p $CI_PROJECT_DIR/bin
-    export PATH=${CI_PROJECT_DIR}/bin:${PATH}
-    echo "${GOOGLE_CREDENTIALS}" > ${CI_PROJECT_DIR}/docker.json
-    wget -q -O credHelper.tar.gz https://github.com/GoogleCloudPlatform/docker-credential-gcr/releases/download/v2.1.29/docker-credential-gcr_linux_amd64-2.1.29.tar.gz
-    tar -xzf credHelper.tar.gz
-    chmod +x docker-credential-gcr
-    mv docker-credential-gcr ${CI_PROJECT_DIR}/bin/
-    docker-credential-gcr configure-docker --registries=europe-docker.pkg.dev
-  script:
-  - |
-    IMAGE_TAG=${IMAGE_NAME}:${CI_COMMIT_SHA}-$(echo "${CI_COMMIT_TIMESTAMP}" | sed 's/[:+]/./g')
-    LATEST_TAG=${IMAGE_NAME}:latest
-    echo "Building image [${IMAGE_TAG}]"
-    buildctl-daemonless.sh build \
-      --frontend=dockerfile.v0 \
-      --local context=${CI_PROJECT_DIR} \
-      --local dockerfile=${CI_PROJECT_DIR} \
-      --opt filename=${DOCKERFILE} \
-      ${BUILD_ARGS} \
-      --output type=image,name=${IMAGE_TAG},push=true \
-      --output type=image,name=${LATEST_TAG},push=true
 
 render:
   stage: render
