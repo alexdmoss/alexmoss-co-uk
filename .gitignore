@@ -15,7 +15,6 @@ src/.hugo_build.lock
 src/resources/_gen/**
 
 gitleaks.json
-snyk*.json
 .dccache
 
 .vscode/
