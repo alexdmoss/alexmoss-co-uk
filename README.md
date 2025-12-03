@@ -38,7 +38,7 @@ These were the sections I ended up with:
 
 ## Local Development
 
-`./go run`. You need to have Hugo installed (tested with `hugo v0.90.1+extended`).
+`./scripts/render.sh && docker build -p 8080:8080 -t alexmoss:main`, or `./run-local.sh` (will only serve the hugo content).
 
 ## Other Themes
 
