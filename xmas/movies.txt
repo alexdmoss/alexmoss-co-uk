@@ -2,7 +2,6 @@ Elf
 Home Alone
 Die Hard
 National Lampoon's Christmas Vacation
-The Nightmare Before Christmas
 Love Actually
 The Polar Express
 How the Grinch Stole Christmas
@@ -16,3 +15,6 @@ Dr Seuss' The Grinch
 Last Christmas (2019)
 Happy Christmas (2014)
 The Holiday
+The Family Stone
+Little Women
+Guardians of Galaxy Holiday Special
