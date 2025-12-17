@@ -1,33 +1,13 @@
 stages:
   - render
-  - build
+  - release
   - scan
-  - deploy
   - smoke
 
 variables:
+  IMAGE_NAME: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
+  NAMESPACE: alexmoss
   DOMAIN: alexmoss.co.uk
-
-include:
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/buildkit@~latest
-    inputs:
-      job-stage: build
-      job-needs: ["render"]
-      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-      dockerfile: Dockerfile
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
-    inputs:
-      job-stage: scan
-      job-needs: ["buildkit-build-app"]
-      image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-  - component: gitlab.com/alexos-dev/gitlab-ci-components/deploy-k8s@~latest
-    inputs:
-      job-stage: deploy
-      job-needs: ["buildkit-build-app"]
-      app-name: alexmoss
-      namespace: alexmoss
-      image-name: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
-      manifest-dir: k8s
 
 render:
   stage: render
@@ -40,10 +20,32 @@ render:
     when: on_success
     expire_in: "1 day"
 
-smoke:
-  stage: smoke
+test-build-deploy:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   image: al3xos/ci-tools:latest
   needs:
-    - deploy-k8s-app
+  - render
+  script:
+    - alexos-cli build --image-name=$IMAGE_NAME --gcr-login
+    - alexos-cli deploy kubernetes --image-name=$IMAGE_NAME --namespace=$NAMESPACE
+
+include:
+  - component: gitlab.com/alexos-dev/gitlab-ci-components/security-scan@~latest
+    rules:
+      - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    inputs:
+      job-stage: scan
+      job-needs: ["test-build-deploy"]
+      image-names: europe-docker.pkg.dev/${GCP_PROJECT_ID}/alexos/alexmoss
+
+smoke:
+  stage: smoke
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  image: al3xos/ci-tools:latest
+  needs:
+    - test-build-deploy
   script:
     - ./scripts/smoke.sh
