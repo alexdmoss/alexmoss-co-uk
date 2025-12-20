@@ -18,3 +18,6 @@ gitleaks.json
 .dccache
 
 .vscode/
+
+tmp/
+*-report.json
