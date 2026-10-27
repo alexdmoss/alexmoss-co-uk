@@ -1,5 +1,5 @@
-FROM al3xos/distroless-caddy:2.11@sha256:371a1acb7d47a922009717edb7f56545a5d7b76cf123d420b6f435ccbff37744
-USER nonroot
-COPY --chown=nonroot:nonroot Caddyfile /etc/caddy/Caddyfile
-COPY --chown=nonroot:nonroot app/ ./app
-COPY --chown=nonroot:nonroot xmas/ ./app/xmas
+FROM al3xos/nginx-with-prometheus:1.17@sha256:f4c9da28c3687e801c62083caf749a4f87b7861a0a72f64100a0138087e5cd6b
+USER nginx
+COPY config/default.conf /etc/nginx/conf.d/
+COPY app/ /app/
+COPY xmas/ /app/xmas/

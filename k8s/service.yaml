@@ -18,5 +18,5 @@ spec:
   selector:
     app: alexmoss
   ports:
-    - port: 9146
+    - port: 9145
       name: metrics
