@@ -47,7 +47,7 @@ function _smoke_test() {
     local match=$3
     local explanation=$4
 
-    output=$(curl -H "Host: ${domain}" -s -k -L "${url}" || true)
+    output=$(curl -H "Host: ${domain}" -s -L --max-time 10 "${url}" || true)
 
     if [[ $(echo "${output}" | grep -c "${match}") -eq 0 ]]; then 
         _console_msg "Test $explanation FAILED - ${url} - missing phrase" ERROR
