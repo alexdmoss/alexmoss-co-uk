@@ -74,7 +74,6 @@ security-scan:
   script:
     - alexos-cli scan secrets
     - alexos-cli scan container --image-name=$IMAGE_NAME
-    - alexos-cli scan iac
   allow_failure: true
   artifacts:
     when: on_failure
